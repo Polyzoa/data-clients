@@ -1,0 +1,14 @@
+.idea
+*.iml
+**/.env
+**/.env.*
+**/polizoa_credentials.json
+*.csv
+**/go.sum
+**/coins.json
+**/terraform.tfvars
+**/.terraform.lock.hcl
+**/.terraform
+**/plan.out
+data-wrangler/data-wrangler
+**/coins-test.json
