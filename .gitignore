@@ -4,7 +4,7 @@
 **/.env.*
 **/polizoa_credentials.json
 *.csv
-**/go.sum
+
 **/coins.json
 **/terraform.tfvars
 **/.terraform.lock.hcl
