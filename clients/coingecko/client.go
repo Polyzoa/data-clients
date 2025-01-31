@@ -7,8 +7,8 @@ import (
 	"os"
 	"sync"
 
-	"data-clients/clients/errors"
-	"data-clients/clients/internal/httpclient"
+	"github.com/Polyzoa/data-clients/clients/errors"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 	"github.com/elliotchance/pie/v2"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/massigerardi/go-commons/commons"

@@ -4,7 +4,7 @@ import (
 	errorsUtils "errors"
 	"time"
 
-	"data-clients/clients/errors"
+	"github.com/Polyzoa/data-clients/clients/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"

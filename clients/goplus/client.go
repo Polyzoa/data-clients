@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"data-clients/clients/errors"
-	"data-clients/clients/internal/httpclient"
 	goplusModels "github.com/GoPlusSecurity/goplus-sdk-go/pkg/gen/models"
+	"github.com/Polyzoa/data-clients/clients/errors"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/massigerardi/go-commons/commons"
 	log "github.com/sirupsen/logrus"

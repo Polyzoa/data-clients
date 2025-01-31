@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"data-clients/clients/internal/httpclient"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 )
 
 func TestClient_GetSummary(t *testing.T) {

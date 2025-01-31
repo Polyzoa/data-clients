@@ -1,7 +1,7 @@
 package bitquery
 
 import (
-	"data-clients/clients/errors"
+	"github.com/Polyzoa/data-clients/clients/errors"
 	"github.com/massigerardi/go-commons/commons"
 )
 

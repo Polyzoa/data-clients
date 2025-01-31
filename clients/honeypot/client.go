@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"data-clients/clients/internal/httpclient"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 	"github.com/hashicorp/go-retryablehttp"
 )
 

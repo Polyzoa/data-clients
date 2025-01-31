@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"data-clients/clients/errors"
-	"data-clients/clients/internal/httpclient"
+	"github.com/Polyzoa/data-clients/clients/errors"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 )
 
 type Client struct {

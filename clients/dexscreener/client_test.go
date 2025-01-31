@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"data-clients/clients/internal/httpclient"
+	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 	"github.com/massigerardi/go-commons/commons"
 )
 
