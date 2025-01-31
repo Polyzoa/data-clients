@@ -1,4 +1,4 @@
-module github.com/Polyzoa/data-clients
+module github.com/Polyzoa/data-clients/clients
 
 go 1.23
 
