@@ -12,15 +12,15 @@ type Error struct {
 }
 
 type StatsData struct {
-	TransfersStats []StatData `json:"transfer_stats"`
-	Transfers      Counters   `json:"transfers,omitempty"`
-	Senders        Counters   `json:"senders,omitempty"`
-	Transactions   Counters   `json:"transactions,omitempty"`
+	TransfersStats []StatData    `json:"transfer_stats"`
+	Transfers      TokenCounters `json:"transfers,omitempty"`
+	Senders        TokenCounters `json:"senders,omitempty"`
+	Transactions   TokenCounters `json:"transactions,omitempty"`
 }
 
-type Counters []Counter
+type TokenCounters []TokenCounter
 
-type Counter struct {
+type TokenCounter struct {
 	Token   Token `json:"token,omitempty"`
 	Fails   int64 `json:"fails,string,omitempty"`
 	Success int64 `json:"success,string,omitempty"`
@@ -28,10 +28,21 @@ type Counter struct {
 }
 
 type TransactionData struct {
-	Results []*TransactionStats `json:"results"`
+	Results []*Counter `json:"results"`
 }
 
-type TransactionStats struct {
+type TransferData struct {
+	Transfers    []CounterString `json:"transfers"`
+	Transactions []CounterString `json:"transactions"`
+}
+
+type CounterString struct {
+	Total   int64 `json:"total,string,omitempty"`
+	Success int64 `json:"success,string,omitempty"`
+	Fails   int64 `json:"fails,string,omitempty"`
+}
+
+type Counter struct {
 	Total   int64 `json:"total,omitempty"`
 	Success int64 `json:"success,omitempty"`
 	Fails   int64 `json:"fails,omitempty"`

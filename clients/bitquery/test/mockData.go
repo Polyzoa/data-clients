@@ -423,3 +423,22 @@ const DataResponse = `{
     ]
   }
 }`
+
+const TransfersDataResponse = `{
+        "data": {
+            "transactions": [
+                {
+                    "fails": "15088",
+                    "success": "1483754",
+                    "total": "1498842"
+                }
+            ],
+            "transfers": [
+                {
+                    "fails": "13410",
+                    "success": "821810",
+                    "total": "835220"
+                }
+            ]
+        }
+}`

@@ -16,10 +16,10 @@ type GraphqlClient interface {
 }
 
 type Client struct {
-	ApiKey        string
-	Authorization string
-	ClientV1      graphql.Runner
-	ClientV2      graphql.Runner
+	apiKey        string
+	authorization string
+	clientV1      graphql.Runner
+	clientV2      graphql.Runner
 }
 
 func NewClientWithLog(apiKey string, auth string, log func(s string)) *Client {
@@ -44,10 +44,10 @@ func NewClient(
 	clientV2 GraphqlClient,
 ) *Client {
 	return &Client{
-		ApiKey:        apiKey,
-		Authorization: auth,
-		ClientV1:      clientV1,
-		ClientV2:      clientV2,
+		apiKey:        apiKey,
+		authorization: auth,
+		clientV1:      clientV1,
+		clientV2:      clientV2,
 	}
 }
 
@@ -62,8 +62,9 @@ func (c Client) runQuery(
 		req.Var(key, value)
 	}
 	// req.Header.Set("X-API-KEY", c.apiKey)
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.ApiKey))
-	return client.Run(context.Background(), req, &response)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
+	results := client.Run(context.Background(), req, &response)
+	return results
 }
 
 func (c Client) GetStatsData(_ context.Context, chainName string, addresses []string) (*StatsData, error) {
@@ -77,7 +78,7 @@ func (c Client) GetStatsData(_ context.Context, chainName string, addresses []st
 		"network":   chain.Network,
 	}
 	var response Response[StatsData]
-	err = c.runQuery(c.ClientV2, query, vars, &response)
+	err = c.runQuery(c.clientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +105,7 @@ func (c Client) GetStatsDataBefore(
 		"before":    before.Format("2006-01-02T15:04:05Z"),
 	}
 	var response Response[StatsData]
-	err = c.runQuery(c.ClientV2, query, vars, &response)
+	err = c.runQuery(c.clientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +123,7 @@ func (c Client) GetContractData(_ context.Context, chainName string, addresses [
 		"chain":     chain.Network,
 	}
 	var response Response[ContractData]
-	err = c.runQuery(c.ClientV1, query, vars, &response)
+	err = c.runQuery(c.clientV1, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -155,14 +156,14 @@ func (c Client) GetHoldersData(
 		"amount":  amountAsString,
 	}
 	var response Response[HoldersData]
-	err = c.runQuery(c.ClientV2, query, vars, &response)
+	err = c.runQuery(c.clientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
 	return &response.Data, nil
 }
 
-func (c Client) GetHistorySummary(chainName string, address string) (*TransactionStats, error) {
+func (c Client) GetHistorySummary(chainName string, address string) (*Counter, error) {
 	chain, err := GetChainV1(chainName)
 	if err != nil {
 		return nil, err
@@ -173,10 +174,29 @@ func (c Client) GetHistorySummary(chainName string, address string) (*Transactio
 		"chain":   chain,
 	}
 	var response Response[TransactionData]
-	err = c.runQuery(c.ClientV1, query, vars, &response)
+	err = c.runQuery(c.clientV1, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
 	data := pie.First(response.Data.Results)
 	return data, err
+}
+
+func (c Client) GetTransfersSummary(chainName string, address string) (*TransferData, error) {
+	chain, err := GetChainV1(chainName)
+	if err != nil {
+		return nil, err
+	}
+	query := QueryTransactionStats
+	vars := map[string]any{
+		"address": address,
+		"chain":   chain,
+	}
+	var response Response[TransferData]
+	err = c.runQuery(c.clientV2, query, vars, &response)
+	if err != nil {
+		return nil, err
+	}
+	data := response.Data
+	return &data, err
 }

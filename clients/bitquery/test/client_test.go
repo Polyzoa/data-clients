@@ -80,12 +80,7 @@ func TestClient_GetStatsData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := bitquery.Client{
-				ApiKey:        tt.fields.apiKey,
-				Authorization: tt.fields.authorization,
-				ClientV1:      tt.fields.clientV1,
-				ClientV2:      tt.fields.clientV2,
-			}
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
 			got, err := c.GetStatsData(context.TODO(), tt.args.chain, tt.args.addresses)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetTransferData() error = %v, wantErr %v", err, tt.wantErr)
@@ -105,15 +100,15 @@ func TestClient_GetStatsData(t *testing.T) {
 	}
 }
 
-func checkStats(stats bitquery.Counters, want bitquery.Counters, address string, t *testing.T) {
-	index := pie.FindFirstUsing(stats, func(value bitquery.Counter) bool {
+func checkStats(stats bitquery.TokenCounters, want bitquery.TokenCounters, address string, t *testing.T) {
+	index := pie.FindFirstUsing(stats, func(value bitquery.TokenCounter) bool {
 		return value.Token.Address == address
 	})
 	if index == -1 {
 		t.Errorf("No data found for %v", address)
 	}
 	data := stats[index]
-	index = pie.FindFirstUsing(want, func(value bitquery.Counter) bool {
+	index = pie.FindFirstUsing(want, func(value bitquery.TokenCounter) bool {
 		return value.Token.Address == address
 	})
 	expected := want[index]
@@ -173,12 +168,8 @@ func TestClient_GetContractData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := bitquery.Client{
-				ApiKey:        tt.fields.apiKey,
-				Authorization: tt.fields.authorization,
-				ClientV1:      tt.fields.clientV1,
-				ClientV2:      tt.fields.clientV2,
-			}
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+
 			got, err := c.GetContractData(context.TODO(), tt.args.chain, tt.args.addresses)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetContractData() error = %v, wantErr %v", err, tt.wantErr)
@@ -255,12 +246,8 @@ func TestClient_GetHoldersData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := bitquery.Client{
-				ApiKey:        tt.fields.apiKey,
-				Authorization: tt.fields.authorization,
-				ClientV1:      tt.fields.clientV1,
-				ClientV2:      tt.fields.clientV2,
-			}
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+
 			got, err := c.GetHoldersData(context.TODO(), tt.args.chain, tt.args.address, tt.args.date, tt.args.amount...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getHoldersData() error = %v, wantErr %v", err, tt.wantErr)
@@ -319,12 +306,8 @@ func TestClient_GetStatsDataBefore(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := bitquery.Client{
-				ApiKey:        tt.fields.apiKey,
-				Authorization: tt.fields.authorization,
-				ClientV1:      tt.fields.clientV1,
-				ClientV2:      tt.fields.clientV2,
-			}
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+
 			got, err := c.GetStatsDataBefore(tt.args.in0, tt.args.chainName, tt.args.addresses, tt.args.after, tt.args.before)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetStatsDataBefore() error = %v, wantErr %v", err, tt.wantErr)
@@ -359,7 +342,7 @@ func TestClient_GetHistorySummary(t *testing.T) {
 		name      string
 		fields    fields
 		args      args
-		want      *bitquery.TransactionStats
+		want      *bitquery.Counter
 		wantErr   bool
 		wantCalls int32
 	}{
@@ -375,7 +358,7 @@ func TestClient_GetHistorySummary(t *testing.T) {
 				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
 				chainName: "ethereum",
 			},
-			want: &bitquery.TransactionStats{
+			want: &bitquery.Counter{
 				Total:   22223,
 				Success: 22167,
 				Fails:   56,
@@ -415,12 +398,8 @@ func TestClient_GetHistorySummary(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := bitquery.Client{
-				ApiKey:        tt.fields.apiKey,
-				Authorization: tt.fields.authorization,
-				ClientV1:      tt.fields.clientV1,
-				ClientV2:      tt.fields.clientV2,
-			}
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+
 			got, err := c.GetHistorySummary(tt.args.chainName, tt.args.address)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetHistorySummary() error = %v, wantErr %v", err, tt.wantErr)
@@ -432,6 +411,97 @@ func TestClient_GetHistorySummary(t *testing.T) {
 			var mock = tt.fields.clientV1.(Mock)
 			if mock.Calls() != tt.wantCalls {
 				t.Errorf("GetHistorySummary() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_GetTransfersSummary(t *testing.T) {
+	type fields struct {
+		apiKey        string
+		authorization string
+		clientV1      graphql.Runner
+		clientV2      graphql.Runner
+	}
+	type args struct {
+		chainName string
+		address   string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *bitquery.TransferData
+		wantErr bool
+	}{
+		{
+			name: "success",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{TransfersDataResponse}, []error{}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			want: &bitquery.TransferData{
+				Transfers: []bitquery.CounterString{
+					{
+						Total:   835220,
+						Success: 821810,
+						Fails:   13410,
+					},
+				},
+				Transactions: []bitquery.CounterString{
+					{
+						Total:   1498842,
+						Success: 1483754,
+						Fails:   15088,
+					},
+				},
+			},
+		},
+		{
+			name: "chain failure",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{}, []error{}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "etheereum",
+			},
+			wantErr: true,
+		},
+		{
+			name: "resource failure",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{}, []error{errors.New("error")}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+			got, err := c.GetTransfersSummary(tt.args.chainName, tt.args.address)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetTransfersSummary() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetTransfersSummary()\ngot  %v\nwant %v", got, tt.want)
 			}
 		})
 	}

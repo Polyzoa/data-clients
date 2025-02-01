@@ -1,5 +1,5 @@
 .idea
 *.iml
-
+**/.env
 **/coins.json
 **/coins-test.json
