@@ -131,6 +131,19 @@ query ContractQuery($addresses: [String!] = "", $chain: EthereumNetwork!) {
 }
 `
 
+const BalanceQuery = `query Holders($address: String!, $network: evm_network, $date: String!) {
+    data: EVM(dataset: archive, network: $network) {
+        holders: TokenHolders(
+            date: $date
+            where: {Balance: {Amount: {gt: "0"}}, Holder: {Address: {notIn: ["0x000000000000000000000000000000000000dead", "0x0000000000000000000000000000000000000000"]}}}
+            tokenSmartContract: $address
+        ) {
+						supply: sum(of: Balance_Amount)
+            holders: uniq(of: Holder_Address)
+        }
+	 }
+}`
+
 const HoldersQuery = `query Holders($address: String!, $network: evm_network, $date: String!, $amount: String!) {
     data: EVM(dataset: archive, network: $network) {
         holders: TokenHolders(

@@ -506,3 +506,96 @@ func TestClient_GetTransfersSummary(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_GetHolderBalance(t *testing.T) {
+	type fields struct {
+		apiKey        string
+		authorization string
+		clientV1      graphql.Runner
+		clientV2      graphql.Runner
+	}
+	type args struct {
+		chainName string
+		address   string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *bitquery.BalanceData
+		wantErr bool
+	}{
+		{
+			name: "success",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{BalanceResponse}, []error{}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			want: &bitquery.BalanceData{
+				Supply:  142512.74104314,
+				Holders: 104594,
+			},
+		},
+		{
+			name: "fail empty",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{BalanceResponseEmpty}, []error{}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			wantErr: true,
+		},
+		{
+			name: "fail chain",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{}, []error{}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "etheereum",
+			},
+			wantErr: true,
+		},
+		{
+			name: "fail response",
+			fields: fields{
+				apiKey:        "",
+				authorization: "",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{}, []error{errors.New("error")}),
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := bitquery.NewClient(tt.fields.apiKey, tt.fields.authorization, tt.fields.clientV1, tt.fields.clientV2)
+			got, err := c.GetHolderBalance(tt.args.chainName, tt.args.address)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetHolderBalance() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetHolderBalance() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

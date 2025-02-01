@@ -36,6 +36,15 @@ type TransferData struct {
 	Transactions []CounterString `json:"transactions"`
 }
 
+type BalanceData struct {
+	Supply  float64 `json:"supply,string"`
+	Holders int64   `json:"holders,string"`
+}
+
+type BalanceDataResponse struct {
+	Holders []BalanceData `json:"holders"`
+}
+
 type CounterString struct {
 	Total   int64 `json:"total,string,omitempty"`
 	Success int64 `json:"success,string,omitempty"`

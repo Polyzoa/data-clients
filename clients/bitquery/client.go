@@ -2,6 +2,7 @@ package bitquery
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strconv"
 	"time"
@@ -199,4 +200,26 @@ func (c Client) GetTransfersSummary(chainName string, address string) (*Transfer
 	}
 	data := response.Data
 	return &data, err
+}
+
+func (c Client) GetHolderBalance(chainName string, address string) (*BalanceData, error) {
+	chain, err := GetChainV1(chainName)
+	if err != nil {
+		return nil, err
+	}
+	query := BalanceQuery
+	vars := map[string]any{
+		"address": address,
+		"chain":   chain,
+	}
+	var response Response[BalanceDataResponse]
+	err = c.runQuery(c.clientV2, query, vars, &response)
+	if err != nil {
+		return nil, err
+	}
+	data := response.Data
+	if len(data.Holders) == 0 {
+		return nil, errors.New("no data")
+	}
+	return &data.Holders[0], err
 }

@@ -442,3 +442,19 @@ const TransfersDataResponse = `{
             ]
         }
 }`
+
+const BalanceResponse = `{
+			"data": {
+					"holders": [
+							{
+									"holders": "104594",
+									"supply": "142512.74104314"
+							}
+					]
+			}
+}`
+const BalanceResponseEmpty = `{
+			"data": {
+					"holders": []
+			}
+}`
