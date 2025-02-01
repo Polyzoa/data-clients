@@ -1,12 +1,14 @@
-package bitquery
+package test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"reflect"
 	"testing"
 	"time"
 
+	"github.com/Polyzoa/data-clients/clients/bitquery"
 	"github.com/elliotchance/pie/v2"
 	"github.com/massigerardi/go-commons/commons"
 	"github.com/massigerardi/graphql"
@@ -35,7 +37,7 @@ func TestNewClient(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewClient(tt.args.apiKey, tt.args.auth, tt.args.clientV1, tt.args.clientV2); got == nil {
+			if got := bitquery.NewClient(tt.args.apiKey, tt.args.auth, tt.args.clientV1, tt.args.clientV2); got == nil {
 				t.Error("NewClient() is nil")
 			}
 		})
@@ -78,18 +80,18 @@ func TestClient_GetStatsData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Client{
-				apiKey:        tt.fields.apiKey,
-				authorization: tt.fields.authorization,
-				clientV1:      tt.fields.clientV1,
-				clientV2:      tt.fields.clientV2,
+			c := bitquery.Client{
+				ApiKey:        tt.fields.apiKey,
+				Authorization: tt.fields.authorization,
+				ClientV1:      tt.fields.clientV1,
+				ClientV2:      tt.fields.clientV2,
 			}
 			got, err := c.GetStatsData(context.TODO(), tt.args.chain, tt.args.addresses)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetTransferData() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			var expected StatsData
+			var expected bitquery.StatsData
 			err = commons.LoadFromJson(tt.want, &expected)
 			if err != nil {
 				t.Errorf("GetTransferData() error = %v", err)
@@ -103,15 +105,15 @@ func TestClient_GetStatsData(t *testing.T) {
 	}
 }
 
-func checkStats(stats Counters, want Counters, address string, t *testing.T) {
-	index := pie.FindFirstUsing(stats, func(value Counter) bool {
+func checkStats(stats bitquery.Counters, want bitquery.Counters, address string, t *testing.T) {
+	index := pie.FindFirstUsing(stats, func(value bitquery.Counter) bool {
 		return value.Token.Address == address
 	})
 	if index == -1 {
 		t.Errorf("No data found for %v", address)
 	}
 	data := stats[index]
-	index = pie.FindFirstUsing(want, func(value Counter) bool {
+	index = pie.FindFirstUsing(want, func(value bitquery.Counter) bool {
 		return value.Token.Address == address
 	})
 	expected := want[index]
@@ -171,11 +173,11 @@ func TestClient_GetContractData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Client{
-				apiKey:        tt.fields.apiKey,
-				authorization: tt.fields.authorization,
-				clientV1:      tt.fields.clientV1,
-				clientV2:      tt.fields.clientV2,
+			c := bitquery.Client{
+				ApiKey:        tt.fields.apiKey,
+				Authorization: tt.fields.authorization,
+				ClientV1:      tt.fields.clientV1,
+				ClientV2:      tt.fields.clientV2,
 			}
 			got, err := c.GetContractData(context.TODO(), tt.args.chain, tt.args.addresses)
 			if (err != nil) != tt.wantErr {
@@ -185,7 +187,7 @@ func TestClient_GetContractData(t *testing.T) {
 			if err != nil {
 				return
 			}
-			var expected ContractData
+			var expected bitquery.ContractData
 			err = commons.LoadFromJson(tt.want, &expected)
 			if err != nil {
 				t.Errorf("GetContractData() error = %v", err)
@@ -197,7 +199,7 @@ func TestClient_GetContractData(t *testing.T) {
 	}
 }
 
-func TestClient_getHoldersData(t *testing.T) {
+func TestClient_GetHoldersData(t *testing.T) {
 	type fields struct {
 		apiKey        string
 		authorization string
@@ -208,6 +210,7 @@ func TestClient_getHoldersData(t *testing.T) {
 		chain   string
 		address string
 		date    time.Time
+		amount  []float64
 	}
 	tests := []struct {
 		name    string
@@ -222,7 +225,7 @@ func TestClient_getHoldersData(t *testing.T) {
 				apiKey:        "BQYAZB4gcMCjH5euRUwZQ8WinQWx5UP4",
 				authorization: "test",
 				clientV1:      nil,
-				clientV2:      NewMockGraphqlClient([]string{HoldersResponse}, []error{}),
+				clientV2:      NewMockGraphqlClient([]string{MockHoldersResponse}, []error{}),
 			},
 			args: args{
 				chain:   "ethereum",
@@ -232,21 +235,38 @@ func TestClient_getHoldersData(t *testing.T) {
 			want:    HoldersDataResponse,
 			wantErr: false,
 		},
+		{
+			name: "Simple Query with amount",
+			fields: fields{
+				apiKey:        "BQYAZB4gcMCjH5euRUwZQ8WinQWx5UP4",
+				authorization: "test",
+				clientV1:      nil,
+				clientV2:      NewMockGraphqlClient([]string{MockHoldersResponse}, []error{}),
+			},
+			args: args{
+				chain:   "ethereum",
+				address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+				date:    time.Now(),
+				amount:  []float64{1000},
+			},
+			want:    HoldersDataResponse,
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Client{
-				apiKey:        tt.fields.apiKey,
-				authorization: tt.fields.authorization,
-				clientV1:      tt.fields.clientV1,
-				clientV2:      tt.fields.clientV2,
+			c := bitquery.Client{
+				ApiKey:        tt.fields.apiKey,
+				Authorization: tt.fields.authorization,
+				ClientV1:      tt.fields.clientV1,
+				ClientV2:      tt.fields.clientV2,
 			}
-			got, err := c.GetHoldersData(context.TODO(), tt.args.chain, tt.args.address, tt.args.date)
+			got, err := c.GetHoldersData(context.TODO(), tt.args.chain, tt.args.address, tt.args.date, tt.args.amount...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getHoldersData() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			var expected HoldersData
+			var expected bitquery.HoldersData
 			err = commons.LoadFromJson(tt.want, &expected)
 			if err != nil {
 				t.Errorf("GetContractData() error = %v", err)
@@ -299,18 +319,18 @@ func TestClient_GetStatsDataBefore(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := Client{
-				apiKey:        tt.fields.apiKey,
-				authorization: tt.fields.authorization,
-				clientV1:      tt.fields.clientV1,
-				clientV2:      tt.fields.clientV2,
+			c := bitquery.Client{
+				ApiKey:        tt.fields.apiKey,
+				Authorization: tt.fields.authorization,
+				ClientV1:      tt.fields.clientV1,
+				ClientV2:      tt.fields.clientV2,
 			}
 			got, err := c.GetStatsDataBefore(tt.args.in0, tt.args.chainName, tt.args.addresses, tt.args.after, tt.args.before)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetStatsDataBefore() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			var expected StatsData
+			var expected bitquery.StatsData
 			err = commons.LoadFromJson(tt.want, &expected)
 			if err != nil {
 				t.Errorf("GetTransferData() error = %v", err)
@@ -319,6 +339,99 @@ func TestClient_GetStatsDataBefore(t *testing.T) {
 				checkStats(got.Transfers, expected.Transfers, address, t)
 				checkStats(got.Senders, expected.Senders, address, t)
 				checkStats(got.Transactions, expected.Transactions, address, t)
+			}
+		})
+	}
+}
+
+func TestClient_GetHistorySummary(t *testing.T) {
+	type fields struct {
+		apiKey        string
+		authorization string
+		clientV1      graphql.Runner
+		clientV2      graphql.Runner
+	}
+	type args struct {
+		chainName string
+		address   string
+	}
+	tests := []struct {
+		name      string
+		fields    fields
+		args      args
+		want      *bitquery.TransactionStats
+		wantErr   bool
+		wantCalls int32
+	}{
+		{
+			name: "success",
+			fields: fields{
+				apiKey:        "test",
+				authorization: "test",
+				clientV1:      NewMockGraphqlClient([]string{DataResponse}, []error{}),
+				clientV2:      nil,
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			want: &bitquery.TransactionStats{
+				Total:   22223,
+				Success: 22167,
+				Fails:   56,
+			},
+			wantErr:   false,
+			wantCalls: 1,
+		},
+		{
+			name: "chain error",
+			fields: fields{
+				apiKey:        "test",
+				authorization: "test",
+				clientV1:      NewMockGraphqlClient([]string{}, []error{}),
+				clientV2:      nil,
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "etheereum",
+			},
+			wantErr: true,
+		},
+		{
+			name: "response error",
+			fields: fields{
+				apiKey:        "test",
+				authorization: "test",
+				clientV1:      NewMockGraphqlClient([]string{}, []error{errors.New("response error")}),
+				clientV2:      nil,
+			},
+			args: args{
+				address:   "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+				chainName: "ethereum",
+			},
+			wantErr:   true,
+			wantCalls: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := bitquery.Client{
+				ApiKey:        tt.fields.apiKey,
+				Authorization: tt.fields.authorization,
+				ClientV1:      tt.fields.clientV1,
+				ClientV2:      tt.fields.clientV2,
+			}
+			got, err := c.GetHistorySummary(tt.args.chainName, tt.args.address)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetHistorySummary() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetHistorySummary() got = %v, want %v", got, tt.want)
+			}
+			var mock = tt.fields.clientV1.(Mock)
+			if mock.Calls() != tt.wantCalls {
+				t.Errorf("GetHistorySummary() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

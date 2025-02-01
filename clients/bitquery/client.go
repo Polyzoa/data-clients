@@ -3,8 +3,10 @@ package bitquery
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
+	"github.com/elliotchance/pie/v2"
 	"github.com/massigerardi/graphql"
 	log "github.com/sirupsen/logrus"
 )
@@ -14,10 +16,10 @@ type GraphqlClient interface {
 }
 
 type Client struct {
-	apiKey        string
-	authorization string
-	clientV1      graphql.Runner
-	clientV2      graphql.Runner
+	ApiKey        string
+	Authorization string
+	ClientV1      graphql.Runner
+	ClientV2      graphql.Runner
 }
 
 func NewClientWithLog(apiKey string, auth string, log func(s string)) *Client {
@@ -42,10 +44,10 @@ func NewClient(
 	clientV2 GraphqlClient,
 ) *Client {
 	return &Client{
-		apiKey:        apiKey,
-		authorization: auth,
-		clientV1:      clientV1,
-		clientV2:      clientV2,
+		ApiKey:        apiKey,
+		Authorization: auth,
+		ClientV1:      clientV1,
+		ClientV2:      clientV2,
 	}
 }
 
@@ -60,7 +62,7 @@ func (c Client) runQuery(
 		req.Var(key, value)
 	}
 	// req.Header.Set("X-API-KEY", c.apiKey)
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.ApiKey))
 	return client.Run(context.Background(), req, &response)
 }
 
@@ -72,10 +74,10 @@ func (c Client) GetStatsData(_ context.Context, chainName string, addresses []st
 	query := StatsQuery
 	vars := map[string]any{
 		"addresses": addresses,
-		"network":   chain.network,
+		"network":   chain.Network,
 	}
 	var response Response[StatsData]
-	err = c.runQuery(c.clientV2, query, vars, &response)
+	err = c.runQuery(c.ClientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -97,12 +99,12 @@ func (c Client) GetStatsDataBefore(
 	query := StatsQueryInTime
 	vars := map[string]any{
 		"addresses": addresses,
-		"network":   chain.network,
+		"network":   chain.Network,
 		"after":     after.Format("2006-01-02T15:04:05Z"),
 		"before":    before.Format("2006-01-02T15:04:05Z"),
 	}
 	var response Response[StatsData]
-	err = c.runQuery(c.clientV2, query, vars, &response)
+	err = c.runQuery(c.ClientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -117,17 +119,23 @@ func (c Client) GetContractData(_ context.Context, chainName string, addresses [
 	query := ContractQuery
 	vars := map[string]any{
 		"addresses": addresses,
-		"chain":     chain.network,
+		"chain":     chain.Network,
 	}
 	var response Response[ContractData]
-	err = c.runQuery(c.clientV1, query, vars, &response)
+	err = c.runQuery(c.ClientV1, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
 	return &response.Data, nil
 }
 
-func (c Client) GetHoldersData(_ context.Context, chainName string, address string, date time.Time) (
+func (c Client) GetHoldersData(
+	_ context.Context,
+	chainName string,
+	address string,
+	date time.Time,
+	thresholdAmount ...float64,
+) (
 	*HoldersData, error,
 ) {
 	chain, err := GetChainV2(chainName)
@@ -135,16 +143,40 @@ func (c Client) GetHoldersData(_ context.Context, chainName string, address stri
 		return nil, err
 	}
 	query := HoldersQuery
+	amount := 1000.0
+	if len(thresholdAmount) > 0 {
+		amount = pie.First(thresholdAmount)
+	}
+	amountAsString := strconv.FormatFloat(amount, 'f', -1, 64)
 	vars := map[string]any{
 		"address": address,
-		"network": chain.network,
+		"network": chain.Network,
 		"date":    date.Format(time.DateOnly),
-		"amount":  "1000",
+		"amount":  amountAsString,
 	}
 	var response Response[HoldersData]
-	err = c.runQuery(c.clientV2, query, vars, &response)
+	err = c.runQuery(c.ClientV2, query, vars, &response)
 	if err != nil {
 		return nil, err
 	}
 	return &response.Data, nil
+}
+
+func (c Client) GetHistorySummary(chainName string, address string) (*TransactionStats, error) {
+	chain, err := GetChainV1(chainName)
+	if err != nil {
+		return nil, err
+	}
+	query := SuccessTransactionsQuery
+	vars := map[string]any{
+		"address": address,
+		"chain":   chain,
+	}
+	var response Response[TransactionData]
+	err = c.runQuery(c.ClientV1, query, vars, &response)
+	if err != nil {
+		return nil, err
+	}
+	data := pie.First(response.Data.Results)
+	return data, err
 }

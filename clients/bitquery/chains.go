@@ -6,21 +6,21 @@ import (
 )
 
 type Chain struct {
-	name    string
-	network string
+	Name    string
+	Network string
 }
 
 var ChainV2 = []Chain{
-	{name: "ethereum", network: "eth"},
-	{name: "base", network: "base"},
-	{name: "optimism", network: "optimism"},
-	{name: "bsc", network: "bsc"},
+	{Name: "ethereum", Network: "eth"},
+	{Name: "base", Network: "base"},
+	{Name: "optimism", Network: "optimism"},
+	{Name: "bsc", Network: "bsc"},
 }
 
 var ChainV1 = []Chain{
-	{name: "ethereum", network: "ethereum"},
-	{name: "matic", network: "matic"},
-	{name: "optimism", network: "optimism"},
+	{Name: "ethereum", Network: "ethereum"},
+	{Name: "matic", Network: "matic"},
+	{Name: "optimism", Network: "optimism"},
 }
 
 func GetChainV2(chainName string) (*Chain, error) {
@@ -33,7 +33,7 @@ func GetChainV1(chainName string) (*Chain, error) {
 
 func getChain(chains []Chain, chainName string) (*Chain, error) {
 	chain := commons.FindFirstUsing(chains, func(chain Chain) bool {
-		return chain.name == chainName
+		return chain.Name == chainName
 	})
 	if chain == nil {
 		return nil, errors.ChainNotFoundError

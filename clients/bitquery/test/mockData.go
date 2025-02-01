@@ -1,4 +1,4 @@
-package bitquery
+package test
 
 import (
 	"context"
@@ -8,6 +8,10 @@ import (
 	"github.com/massigerardi/go-commons/commons"
 	"github.com/massigerardi/graphql"
 )
+
+type Mock interface {
+	Calls() int32
+}
 
 type MockGraphqlClient struct {
 	Response []string
@@ -30,7 +34,8 @@ func (m MockGraphqlClient) Run(_ context.Context, _ *graphql.Request, resp inter
 	if len(m.error) > int(counter) && m.error[counter] != nil {
 		return m.error[counter]
 	}
-	return commons.LoadFromJson(m.Response[counter], resp)
+	err := commons.LoadFromJson(m.Response[counter], resp)
+	return err
 }
 
 var TransferResponse = fmt.Sprintf("{\"data\": %s}", TransferData)
@@ -290,9 +295,7 @@ const ContractDataResponse = `{
 //   ]
 // }`
 
-var HoldersResponse = fmt.Sprintf("{\"data\": %s}", HoldersDataResponse)
-
-var HoldersResponse04 = fmt.Sprintf("{\"data\": %s}", HoldersDataResponse04)
+var MockHoldersResponse = fmt.Sprintf("{\"data\": %s}", HoldersDataResponse)
 
 const HoldersDataResponse = `{
 	"burnt_balance": [
@@ -409,69 +412,14 @@ const HoldersDataResponse = `{
 	]
 }`
 
-const HoldersDataResponse04 = `{
-	"burnt_balance": [
-		{
-			"balance": 9591.008416
-		}
-	],
-	"high_holders": [
-		{
-			"average": 181573.10887515705,
-			"holders": "344779",
-			"median": 2710.7223329999997,
-			"standard_deviation": 16042080.190114936
-		}
-	],
-	"holders": [
-		{
-			"total": "142762.27806229",
-			"average": 9957.924793468854,
-			"holders": "6362776",
-			"median": 14.991373,
-			"standard_deviation": 3744829.82386695
-		}
-	],
-	"low_holders": [
-		{
-			"average": 70.22428187172984,
-			"holders": "6029365",
-			"median": 11.240175,
-			"standard_deviation": 152.36404479261492
-		}
-	],
-	"top_holders": [
-		{
-				"Holder": {
-						"Address": "0x5ee5bf7ae06d1be5997a1a72006fe6c607ec6de8"
-				},
-				"balance": {
-						"Amount": "33824.90611966"
-				}
-		},
-		{
-				"Holder": {
-						"Address": "0xa3a7b6f88361f48403514059f1f16c8e78d60eec"
-				},
-				"balance": {
-						"Amount": "9472.96070051"
-				}
-		},
-		{
-				"Holder": {
-						"Address": "0xc3d688b66703497daa19211eedff47f25384cdc3"
-				},
-				"balance": {
-						"Amount": "6856.45687538"
-				}
-		},
-		{
-				"Holder": {
-						"Address": "0xbf72da2bd84c5170618fbe5914b0eca9638d5eb5"
-				},
-				"balance": {
-						"Amount": "2616.95610282"
-				}
-		}
-	]
+const DataResponse = `{
+  "data": {
+    "results": [
+      {
+        "total": 22223,
+        "success": 22167,
+        "fails": 56
+      }
+    ]
+  }
 }`

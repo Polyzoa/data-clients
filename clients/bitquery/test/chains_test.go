@@ -1,8 +1,10 @@
-package bitquery
+package test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/Polyzoa/data-clients/clients/bitquery"
 )
 
 func TestGetChainV2(t *testing.T) {
@@ -12,13 +14,13 @@ func TestGetChainV2(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Chain
+		want    *bitquery.Chain
 		wantErr bool
 	}{
 		{
 			name: "Find Ethereum",
 			args: args{chainName: "ethereum"},
-			want: &Chain{name: "ethereum", network: "eth"},
+			want: &bitquery.Chain{Name: "ethereum", Network: "eth"},
 		},
 		{
 			name:    "Find nil",
@@ -28,7 +30,7 @@ func TestGetChainV2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetChainV2(tt.args.chainName)
+			got, err := bitquery.GetChainV2(tt.args.chainName)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetChainV2() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -47,13 +49,13 @@ func TestGetChainV1(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    *Chain
+		want    *bitquery.Chain
 		wantErr bool
 	}{
 		{
 			name: "Find Ethereum",
 			args: args{chainName: "ethereum"},
-			want: &Chain{name: "ethereum", network: "ethereum"},
+			want: &bitquery.Chain{Name: "ethereum", Network: "ethereum"},
 		},
 		{
 			name:    "Find nil",
@@ -63,7 +65,7 @@ func TestGetChainV1(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetChainV1(tt.args.chainName)
+			got, err := bitquery.GetChainV1(tt.args.chainName)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetChainV2() error = %v, wantErr %v", err, tt.wantErr)
 				return

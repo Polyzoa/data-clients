@@ -27,6 +27,30 @@ type Counter struct {
 	Total   int64 `json:"total,string,omitempty"`
 }
 
+type TransactionData struct {
+	Results []*TransactionStats `json:"results"`
+}
+
+type TransactionStats struct {
+	Total   int64 `json:"total,omitempty"`
+	Success int64 `json:"success,omitempty"`
+	Fails   int64 `json:"fails,omitempty"`
+}
+
+type HoldersResponse struct {
+	HighHolders  []Holder     `json:"high_holders"`
+	LowHolders   HoldersStats `json:"low_holders"`
+	Holders      HoldersStats `json:"holders"`
+	BurntBalance []Holder     `json:"burnt_balance"`
+}
+
+type HoldersStats []struct {
+	Average           float64 `json:"average"`
+	Count             int64   `json:"holders,string"`
+	Median            float64 `json:"median"`
+	StandardDeviation float64 `json:"standard_deviation"`
+}
+
 type Token struct {
 	Address  string   `json:"address"`
 	Currency Currency `json:"currency"`
