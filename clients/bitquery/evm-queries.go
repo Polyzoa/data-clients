@@ -1,6 +1,7 @@
 package bitquery
 
-const StatsQuery = `query TransactionsQuery($network: evm_network, $addresses: [String!]) {
+var StatsQuery = Query{
+	Query: `query TransactionsQuery($network: evm_network, $addresses: [String!]) {
   data: EVM(dataset: archive, network: $network) {
     transfer_stats: Transfers(where: {Transfer: {Currency: {SmartContract: {in: $addresses}}}}) {
       receivers: count(distinct: Transfer_Receiver)
@@ -44,14 +45,18 @@ const StatsQuery = `query TransactionsQuery($network: evm_network, $addresses: [
     }
   }
 }
-`
+`,
+	Params: nil,
+	Url:    EndpointV2,
+}
 
-const StatsQueryInTime = `query TransactionsQuery($network: evm_network, $addresses: [String!],
+var StatsQueryInTime = Query{
+	Query: `query TransactionsQuery($network: evm_network, $addresses: [String!],
 			$after: DateTime, $before: DateTime
 	) {
   data: EVM(dataset: archive, network: $network) {
     transfer_stats: Transfers(where: {
-			Transfer: {Currency: {SmartContract: {in: $addresses}}}, 
+			Transfer: {Currency: {SmartContract: {in: $addresses}}},
 			Block: {Time: {before: $before, after: $after}}}
 		) {
       receivers: count(distinct: Transfer_Receiver)
@@ -95,10 +100,12 @@ const StatsQueryInTime = `query TransactionsQuery($network: evm_network, $addres
       fails: count(if: {Transaction: {}, TransactionStatus: {Success: false}})
     }
   }
+`,
+	Params: nil,
+	Url:    EndpointV2,
 }
-`
-
-const ContractQuery = `
+var ContractQuery = Query{
+	Query: `
 query ContractQuery($addresses: [String!] = "", $chain: EthereumNetwork!) {
   data: ethereum(network: $chain) {
     transactions(txCreates: {in: $addresses}) {
@@ -128,10 +135,13 @@ query ContractQuery($addresses: [String!] = "", $chain: EthereumNetwork!) {
       }
     }
   }
+`,
+	Params: nil,
+	Url:    EndpointV1,
 }
-`
 
-const BalanceQuery = `query Holders($address: String!, $network: evm_network, $date: String!) {
+var BalanceQuery = Query{
+	Query: `query Holders($address: String!, $network: evm_network, $date: String!) {
     data: EVM(dataset: archive, network: $network) {
         holders: TokenHolders(
             date: $date
@@ -142,9 +152,13 @@ const BalanceQuery = `query Holders($address: String!, $network: evm_network, $d
             holders: uniq(of: Holder_Address)
         }
 	 }
-}`
+}`,
+	Params: nil,
+	Url:    EndpointV2,
+}
 
-const HoldersQuery = `query Holders($address: String!, $network: evm_network, $date: String!, $amount: String!) {
+var HoldersQuery = Query{
+	Query: `query Holders($address: String!, $network: evm_network, $date: String!, $amount: String!) {
     data: EVM(dataset: archive, network: $network) {
         holders: TokenHolders(
             date: $date
@@ -200,4 +214,7 @@ const HoldersQuery = `query Holders($address: String!, $network: evm_network, $d
             }
         }
     }
-}`
+}`,
+	Params: nil,
+	Url:    EndpointV2,
+}

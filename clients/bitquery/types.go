@@ -1,5 +1,19 @@
 package bitquery
 
+type Endpoint string
+
+const (
+	EndpointV1 Endpoint = "https://graphql.bitquery.io"
+	EndpointV2 Endpoint = "https://streaming.bitquery.io/graphql"
+	EndpointV3 Endpoint = "https://streaming.bitquery.io/eap"
+)
+
+type Query struct {
+	Url    Endpoint
+	Query  string
+	Params map[string]any
+}
+
 type Response[V any] struct {
 	Data   V       `json:"data"`
 	Errors []Error `json:"errors"`

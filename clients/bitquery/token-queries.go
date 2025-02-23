@@ -1,6 +1,7 @@
 package bitquery
 
-const SuccessTransactionsQuery = `query SuccessTransactions($address: String!, $chain: EthereumNetwork!)  {
+var SuccessTransactionsQuery = Query{
+	Query: `query SuccessTransactions($address: String!, $chain: EthereumNetwork!)  {
   data: ethereum(network: $chain) {
     results: transactions(
       txTo: {is: $address}
@@ -10,10 +11,13 @@ const SuccessTransactionsQuery = `query SuccessTransactions($address: String!, $
       fails: count(success: false)
     }
   }
+`,
+	Params: nil,
+	Url:    EndpointV1,
 }
-`
 
-const SuccessTransfersQueryV2 = `query SuccessTransactionsQuery($network: evm_network, $address: String!) {
+var SuccessTransfersQueryV2 = Query{
+	Query: `query SuccessTransactionsQuery($network: evm_network, $address: String!) {
   data: EVM(dataset: archive, network: $network) {
     results: Calls(
       where: {Call: {To: {is: $address}, Signature: {Name: {is: "transfer"}}, Depth: {eq: 0}}} #eq==0->external
@@ -23,9 +27,13 @@ const SuccessTransfersQueryV2 = `query SuccessTransactionsQuery($network: evm_ne
       success: count(if: {Call: {Success: true}})
     }
   }
-}`
+}`,
+	Params: nil,
+	Url:    EndpointV2,
+}
 
-const QueryTransactionStats = `query ($network: evm_network, $address: String!) {
+var QueryTransactionStats = Query{
+	Query: `query ($network: evm_network, $address: String!) {
   data: EVM(dataset: archive, network: $network) {
     transactions: Transactions(where: {Transaction: {To: {is: $address}}}) {
       success: count(if: {TransactionStatus: {Success: true}})
@@ -41,4 +49,7 @@ const QueryTransactionStats = `query ($network: evm_network, $address: String!) 
         }
     }
 
-}`
+}`,
+	Params: nil,
+	Url:    EndpointV2,
+}
