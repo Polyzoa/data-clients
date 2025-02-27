@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
+	"github.com/massigerardi/go-commons/commons"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,20 +24,42 @@ func TestClient_GetToken(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:   "live test",
-			fields: fields{apiKey: "bnhd3vwrqaodhmxwn4ry27zwxi9rnl"},
-			args:   args{address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"},
+			name: "error test",
+			fields: fields{
+				apiKey: "bnhd3vwrqaodhmxwn4ry27zwxi9rnl",
+				client: httpclient.NewMockRetryableHttpClient([]string{""}, []int{400}),
+			},
+			args:    args{address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"},
+			wantErr: true,
+		},
+		{
+			name: "simple test",
+			fields: fields{
+				apiKey: "bnhd3vwrqaodhmxwn4ry27zwxi9rnl",
+				client: httpclient.NewMockRetryableHttpClient([]string{tokenResponse}, []int{200}),
+			},
+			args: args{address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"},
+			want: tokenResponse,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := NewClient(tt.fields.apiKey)
+			var expected *TokenData = nil
+			if tt.want != "" {
+				err := commons.LoadFromJson(tt.want, &expected)
+				if err != nil {
+					t.Errorf("loading expected data failed: %v", err)
+					return
+				}
+			}
+			c := NewClientWithRetryableHttpClient(tt.fields.apiKey, tt.fields.client)
 			got, err := c.GetToken(tt.args.address)
-			if (err != nil) != tt.wantErr {
+
+			if tt.wantErr && !assert.Error(t, err) {
 				t.Errorf("GetToken() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			assert.NotEmpty(t, got)
+			assert.Equal(t, expected, got)
 		})
 	}
 }
