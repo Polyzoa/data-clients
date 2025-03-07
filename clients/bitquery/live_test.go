@@ -10,7 +10,7 @@ import (
 )
 
 func Test_RunQuery(t *testing.T) {
-	// t.Skip("live test")
+	t.Skip("live test")
 	type fields struct {
 		apiKey        string
 		authorization string

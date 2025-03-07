@@ -39,7 +39,7 @@ func (c Client) RunQuery(
 		req.Var(key, value)
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
-	client := getGraphqlClient(query.Url)
+	client := getGraphqlClient(string(query.Url))
 	var err error
 	err = client.Run(context.Background(), req, response)
 	return err

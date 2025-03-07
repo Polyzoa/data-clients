@@ -1,15 +1,14 @@
-package test
+package bitquery
 
 import (
 	"testing"
 
-	"github.com/Polyzoa/data-clients/clients/bitquery"
 	"github.com/massigerardi/go-commons/commons"
 )
 
 func TestClient_StatsData(t *testing.T) {
-	var data bitquery.StatsData
-	err := commons.LoadFromJson(TransferData, &data)
+	var data StatsData
+	err := commons.LoadFromJson(MockTransferData, &data)
 	if err != nil {
 		t.Error(err)
 	}
@@ -19,7 +18,7 @@ func TestClient_StatsData(t *testing.T) {
 }
 
 func TestClient_ContractData(t *testing.T) {
-	var data bitquery.ContractData
+	var data ContractData
 	err := commons.LoadFromJson(ContractDataResponse, &data)
 	if err != nil {
 		t.Error(err)
@@ -30,7 +29,7 @@ func TestClient_ContractData(t *testing.T) {
 }
 
 func TestClient_HoldersData(t *testing.T) {
-	var data bitquery.HoldersData
+	var data HoldersData
 	err := commons.LoadFromJson(HoldersDataResponse, &data)
 	if err != nil {
 		t.Error(err)

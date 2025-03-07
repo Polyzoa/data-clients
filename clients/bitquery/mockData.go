@@ -1,12 +1,12 @@
-package test
+package bitquery
 
 import (
 	"fmt"
 )
 
-var TransferResponse = fmt.Sprintf("{\"data\": %s}", TransferData)
+var TransferResponse = fmt.Sprintf("{\"data\": %s}", MockTransferData)
 
-const TransferData = `{
+const MockTransferData = `{
     "senders": [
       {
         "average": 105.09108861604719,
