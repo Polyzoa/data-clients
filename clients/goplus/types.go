@@ -74,3 +74,101 @@ type Dex struct {
 	Liquidity     string `json:"liquidity"`
 	Pair          string `json:"pair"`
 }
+
+type SolanaSecurityInfoResult map[string]SolanaSecurityInfo
+
+type SolanaSecurityInfo struct {
+	BalanceMutableAuthority struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"balance_mutable_authority"`
+	Closable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"closable"`
+	Creators []struct {
+		Address          string `json:"address"`
+		MaliciousAddress int    `json:"malicious_address"`
+	} `json:"creators"`
+	DefaultAccountState           string `json:"default_account_state"`
+	DefaultAccountStateUpgradable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"default_account_state_upgradable"`
+	Dex []struct {
+		Day struct {
+			PriceMax string `json:"price_max"`
+			PriceMin string `json:"price_min"`
+			Volume   string `json:"volume"`
+		} `json:"day"`
+		DexName  string  `json:"dex_name"`
+		FeeRate  string  `json:"fee_rate"`
+		Id       string  `json:"id"`
+		LpAmount *string `json:"lp_amount"`
+		Month    struct {
+			PriceMax string `json:"price_max"`
+			PriceMin string `json:"price_min"`
+			Volume   string `json:"volume"`
+		} `json:"month"`
+		OpenTime string `json:"open_time"`
+		Price    string `json:"price"`
+		Tvl      string `json:"tvl"`
+		Type     string `json:"type"`
+		Week     struct {
+			PriceMax string `json:"price_max"`
+			PriceMin string `json:"price_min"`
+			Volume   string `json:"volume"`
+		} `json:"week"`
+	} `json:"dex"`
+	Freezable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"freezable"`
+	HolderCount string `json:"holder_count"`
+	Holders     []struct {
+		Account      string        `json:"account"`
+		Balance      string        `json:"balance"`
+		IsLocked     int           `json:"is_locked"`
+		LockedDetail []interface{} `json:"locked_detail"`
+		Percent      string        `json:"percent"`
+		Tag          string        `json:"tag"`
+		TokenAccount string        `json:"token_account"`
+	} `json:"holders"`
+	LpHolders []struct {
+		Account      string        `json:"account"`
+		Balance      string        `json:"balance"`
+		IsLocked     int           `json:"is_locked"`
+		LockedDetail []interface{} `json:"locked_detail"`
+		Percent      string        `json:"percent"`
+		Tag          string        `json:"tag"`
+		TokenAccount string        `json:"token_account"`
+	} `json:"lp_holders"`
+	Metadata struct {
+		Description string `json:"description"`
+		Name        string `json:"name"`
+		Symbol      string `json:"symbol"`
+		Uri         string `json:"uri"`
+	} `json:"metadata"`
+	MetadataMutable struct {
+		MetadataUpgradeAuthority []interface{} `json:"metadata_upgrade_authority"`
+		Status                   string        `json:"status"`
+	} `json:"metadata_mutable"`
+	Mintable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"mintable"`
+	NonTransferable string `json:"non_transferable"`
+	TotalSupply     string `json:"total_supply"`
+	TransferFee     struct {
+	} `json:"transfer_fee"`
+	TransferFeeUpgradable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"transfer_fee_upgradable"`
+	TransferHook           []interface{} `json:"transfer_hook"`
+	TransferHookUpgradable struct {
+		Authority []interface{} `json:"authority"`
+		Status    string        `json:"status"`
+	} `json:"transfer_hook_upgradable"`
+	TrustedToken int `json:"trusted_token"`
+}
