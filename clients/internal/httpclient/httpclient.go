@@ -71,10 +71,15 @@ func NewMockRetryableHttpClient(responses []string, statusCodes []int) MockRetry
 
 func (m MockRetryableHttpClient) Do(_ *retryablehttp.Request) (*http.Response, error) {
 	counter := m.counter.Load()
+	var body io.ReadCloser
+	status := m.StatusCodes[counter]
+	if status == 200 {
+		body = io.NopCloser(strings.NewReader(m.Responses[counter]))
+	}
 	response := &http.Response{
-		Status:     fmt.Sprintf("Status %v", m.StatusCodes[counter]),
-		StatusCode: m.StatusCodes[counter],
-		Body:       io.NopCloser(strings.NewReader(m.Responses[counter])),
+		Status:     fmt.Sprintf("Status %v", status),
+		StatusCode: status,
+		Body:       body,
 	}
 	m.counter.Add(1)
 	return response, nil
