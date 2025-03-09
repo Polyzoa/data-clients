@@ -28,7 +28,7 @@ func NewClient(
 }
 
 func (c Client) RunQuery(
-	query Query,
+	query *Query,
 	response interface{},
 ) error {
 	if query.Params == nil || len(query.Params) == 0 {
@@ -39,8 +39,7 @@ func (c Client) RunQuery(
 		req.Var(key, value)
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiKey))
-	client := getGraphqlClient(string(query.Url))
 	var err error
-	err = client.Run(context.Background(), req, response)
+	err = query.Run(context.Background(), req, response)
 	return err
 }

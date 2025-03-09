@@ -15,7 +15,7 @@ func (c Client) GetStatsData(_ context.Context, chainName string, addresses []st
 	if err != nil {
 		return nil, err
 	}
-	query := StatsQuery
+	query := StatsQuery.Clone()
 	query.Params = map[string]any{
 		"addresses": addresses,
 		"network":   chain.Network,
@@ -40,7 +40,7 @@ func (c Client) GetStatsDataBefore(
 		return nil, err
 	}
 	log.Debugf("Querying in interval %v - %v", after, before)
-	query := StatsQueryInTime
+	query := StatsQueryInTime.Clone()
 	query.Params = map[string]any{
 		"addresses": addresses,
 		"network":   chain.Network,
@@ -60,7 +60,7 @@ func (c Client) GetContractData(_ context.Context, chainName string, addresses [
 	if err != nil {
 		return nil, err
 	}
-	query := ContractQuery
+	query := ContractQuery.Clone()
 	query.Params = map[string]any{
 		"addresses": addresses,
 		"chain":     chain.Network,
@@ -86,7 +86,7 @@ func (c Client) GetHoldersData(
 	if err != nil {
 		return nil, err
 	}
-	query := HoldersQuery
+	query := HoldersQuery.Clone()
 	amount := 1000.0
 	if len(thresholdAmount) > 0 {
 		amount = pie.First(thresholdAmount)
@@ -111,7 +111,7 @@ func (c Client) GetHistorySummary(chainName string, address string) (*Counter, e
 	if err != nil {
 		return nil, err
 	}
-	query := SuccessTransactionsQuery
+	query := SuccessTransactionsQuery.Clone()
 	query.Params = map[string]any{
 		"address": address,
 		"chain":   chain,
@@ -130,7 +130,7 @@ func (c Client) GetTransfersSummary(chainName string, address string) (*Transfer
 	if err != nil {
 		return nil, err
 	}
-	query := QueryTransactionStats
+	query := QueryTransactionStats.Clone()
 	query.Params = map[string]any{
 		"address": address,
 		"chain":   chain,
@@ -148,7 +148,7 @@ func (c Client) GetHolderBalance(chainName string, address string) (*BalanceData
 	if err != nil {
 		return nil, err
 	}
-	query := BalanceQuery
+	query := BalanceQuery.Clone()
 	query.Params = map[string]any{
 		"address": address,
 		"chain":   chain,

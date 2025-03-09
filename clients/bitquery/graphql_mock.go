@@ -1,17 +1,12 @@
-//go:build mock
-
 package bitquery
 
 import (
 	"context"
-	"fmt"
 	"sync/atomic"
 
 	"github.com/massigerardi/go-commons/commons"
 	"github.com/massigerardi/graphql"
 )
-
-var mockClient *MockGraphqlClient
 
 type Mock interface {
 	Calls() int32
@@ -21,15 +16,6 @@ type MockGraphqlClient struct {
 	Response []string
 	error    []error
 	counter  *atomic.Int32
-}
-
-func getGraphqlClient(endpoint string) *MockGraphqlClient {
-	fmt.Println("getting mock graphql client")
-	return mockClient
-}
-
-func SetClient(mock *MockGraphqlClient) {
-	mockClient = mock
 }
 
 func NewMockClient(response []string, error []error) *MockGraphqlClient {

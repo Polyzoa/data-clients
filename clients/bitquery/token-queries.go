@@ -1,5 +1,9 @@
 package bitquery
 
+import (
+	"github.com/massigerardi/graphql"
+)
+
 var SuccessTransactionsQuery = Query{
 	Query: `query SuccessTransactions($address: String!, $chain: EthereumNetwork!)  {
   data: ethereum(network: $chain) {
@@ -13,7 +17,7 @@ var SuccessTransactionsQuery = Query{
   }
 `,
 	Params: nil,
-	Url:    EndpointV1,
+	Client: graphql.NewClient(string(EndpointV1)),
 }
 
 var SuccessTransfersQueryV2 = Query{
@@ -29,7 +33,7 @@ var SuccessTransfersQueryV2 = Query{
   }
 }`,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }
 
 var QueryTransactionStats = Query{
@@ -51,5 +55,5 @@ var QueryTransactionStats = Query{
 
 }`,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }

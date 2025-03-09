@@ -1,5 +1,9 @@
 package bitquery
 
+import (
+	"github.com/massigerardi/graphql"
+)
+
 var SolanaTransferQuery = Query{
 	Query: `query TransferQuery($address: String!) {
   data: Solana(network: solana) {
@@ -13,7 +17,7 @@ var SolanaTransferQuery = Query{
   }
 }`,
 	Params: nil,
-	Url:    EndpointV3,
+	Client: graphql.NewClient(string(EndpointV3)),
 }
 
 var SolanaTopHoldersQuery = Query{
@@ -35,7 +39,7 @@ var SolanaTopHoldersQuery = Query{
   }
 }`,
 	Params: nil,
-	Url:    EndpointV3,
+	Client: graphql.NewClient(string(EndpointV3)),
 }
 
 const SolanaSupplyQuery = `query SupplyQuery($address: String!) {
@@ -75,5 +79,5 @@ var SolanaTradersQuery = Query{
   }
 }`,
 	Params: nil,
-	Url:    EndpointV3,
+	Client: graphql.NewClient(string(EndpointV3)),
 }

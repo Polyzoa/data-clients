@@ -1,5 +1,3 @@
-//go:build live
-
 package bitquery
 
 import (
@@ -7,6 +5,8 @@ import (
 	"os"
 	"testing"
 	"time"
+
+	"github.com/massigerardi/graphql"
 )
 
 func Test_RunQuery(t *testing.T) {
@@ -36,8 +36,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   EndpointV2,
-					Query: SuccessTransfersQueryV2.Query,
+					Client: graphql.NewClient(string(EndpointV2)),
+					Query:  SuccessTransfersQueryV2.Query,
 					Params: params{
 						"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 						"chain":   "ethereum",
@@ -68,8 +68,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   EndpointV2,
-					Query: BalanceQuery.Query,
+					Client: graphql.NewClient(string(EndpointV2)),
+					Query:  BalanceQuery.Query,
 					Params: params{
 						"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 						"chain":   "ethereum",
@@ -88,8 +88,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   StatsQuery.Url,
-					Query: StatsQuery.Query,
+					Client: graphql.NewClient(string(EndpointV2)),
+					Query:  StatsQuery.Query,
 					Params: params{
 						"chain": "ethereum",
 						"addresses": []string{
@@ -97,7 +97,6 @@ func Test_RunQuery(t *testing.T) {
 							"0xdac17f958d2ee523a2206206994597c13d831ec7",
 						},
 					},
-					Response: StatsQuery.Response,
 				},
 			},
 			want: Response[any]{},
@@ -111,8 +110,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   EndpointV2,
-					Query: QueryTransactionStats.Query,
+					Client: graphql.NewClient(string(EndpointV2)),
+					Query:  QueryTransactionStats.Query,
 					Params: params{
 						"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
 						"chain":   "ethereum",
@@ -131,8 +130,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   SolanaTransferQuery.Url,
-					Query: SolanaTransferQuery.Query,
+					Client: graphql.NewClient(string(EndpointV3)),
+					Query:  SolanaTransferQuery.Query,
 					Params: params{
 						"address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
 					},
@@ -148,8 +147,8 @@ func Test_RunQuery(t *testing.T) {
 			},
 			args: args{
 				query: Query{
-					Url:   SolanaTransferQuery.Url,
-					Query: SolanaTransferQuery.Query,
+					Client: graphql.NewClient(string(EndpointV3)),
+					Query:  SolanaTransferQuery.Query,
 					Params: params{
 						"address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
 					},
@@ -163,7 +162,7 @@ func Test_RunQuery(t *testing.T) {
 			continue
 		}
 		service := NewClient(tt.fields.apiKey, tt.fields.authorization)
-		err := service.RunQuery(&tt.args.query)
+		err := service.RunQuery(&tt.args.query, &tt.want)
 		if (err != nil) != tt.wantErr {
 			t.Errorf("RunQuery() error = %v, wantErr %v", err, tt.wantErr)
 			return

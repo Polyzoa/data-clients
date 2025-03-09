@@ -7,7 +7,9 @@ import (
 	"testing"
 
 	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/massigerardi/go-commons/commons"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestClient_getRemoteCoins(t *testing.T) {
@@ -19,11 +21,21 @@ func TestClient_getRemoteCoins(t *testing.T) {
 		client httpclient.RetryableHttpClient
 	}
 	tests := []struct {
+		skip    bool
 		name    string
 		fields  fields
 		want    string
 		wantErr bool
 	}{
+		{
+			skip: true,
+			name: "Live Query",
+			fields: fields{
+				client: retryablehttp.NewClient(),
+			},
+			want:    CoinsResponse,
+			wantErr: false,
+		},
 		{
 			name: "Simple Query",
 			fields: fields{
@@ -34,6 +46,9 @@ func TestClient_getRemoteCoins(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		if tt.skip {
+			continue
+		}
 		t.Run(tt.name, func(t *testing.T) {
 			c := Client{
 				client: tt.fields.client,
@@ -48,9 +63,7 @@ func TestClient_getRemoteCoins(t *testing.T) {
 			}
 			var expected Coins
 			_ = commons.LoadFromJson(tt.want, &expected)
-			if !reflect.DeepEqual(got, expected) {
-				t.Errorf("getCoins() got = %v, want %v", got, expected)
-			}
+			assert.Equal(t, expected, got)
 		})
 	}
 }

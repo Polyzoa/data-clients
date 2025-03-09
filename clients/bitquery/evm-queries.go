@@ -1,5 +1,9 @@
 package bitquery
 
+import (
+	"github.com/massigerardi/graphql"
+)
+
 var StatsQuery = Query{
 	Query: `query TransactionsQuery($network: evm_network, $addresses: [String!]) {
   data: EVM(dataset: archive, network: $network) {
@@ -47,7 +51,7 @@ var StatsQuery = Query{
 }
 `,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }
 
 var StatsQueryInTime = Query{
@@ -102,7 +106,7 @@ var StatsQueryInTime = Query{
   }
 `,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }
 var ContractQuery = Query{
 	Query: `
@@ -137,7 +141,7 @@ query ContractQuery($addresses: [String!] = "", $chain: EthereumNetwork!) {
   }
 `,
 	Params: nil,
-	Url:    EndpointV1,
+	Client: graphql.NewClient(string(EndpointV2)),
 }
 
 var BalanceQuery = Query{
@@ -154,7 +158,7 @@ var BalanceQuery = Query{
 	 }
 }`,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }
 
 var HoldersQuery = Query{
@@ -216,5 +220,5 @@ var HoldersQuery = Query{
     }
 }`,
 	Params: nil,
-	Url:    EndpointV2,
+	Client: graphql.NewClient(string(EndpointV2)),
 }

@@ -1,5 +1,13 @@
 package bitquery
 
+import (
+	"bytes"
+	"context"
+	"encoding/gob"
+
+	"github.com/massigerardi/graphql"
+)
+
 type Endpoint string
 
 const (
@@ -9,9 +17,27 @@ const (
 )
 
 type Query struct {
-	Url    Endpoint
+	Client GraphqlClient
 	Query  string
 	Params map[string]any
+}
+
+func (q Query) Clone() *Query {
+	buf := bytes.Buffer{}
+	err := gob.NewEncoder(&buf).Encode(q)
+	if err != nil {
+		return &q
+	}
+	var query Query
+	err = gob.NewDecoder(&buf).Decode(&query)
+	if err != nil {
+		return &q
+	}
+	return &query
+}
+
+func (q Query) Run(ctx context.Context, req *graphql.Request, response interface{}) error {
+	return q.Client.Run(ctx, req, response)
 }
 
 type Response[V any] struct {
