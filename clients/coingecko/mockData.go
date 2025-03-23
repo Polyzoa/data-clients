@@ -1,7 +1,20 @@
 package coingecko
 
-const CoinsResponse = `[
-		{
+import (
+	"io"
+	"os"
+)
+
+const MockCoins = `[
+    {
+        "id": "_",
+        "symbol": "gib",
+        "name": "༼ つ ◕_◕ ༽つ",
+        "platforms": {
+            "hedera-hashgraph": "0x00000000000000000000000000000000007872cb"
+        }
+    },
+    {
         "id": "01coin",
         "symbol": "zoc",
         "name": "01coin",
@@ -52,9 +65,9 @@ const CoinsResponse = `[
         "name": "0x Protocol",
         "platforms": {
             "ethereum": "0xe41d2489571d322189246dafa5ebde1f4699f498",
-            "avalanche": "0x596fa47043f99a4e0f122243b841e55375cde0d2",
             "harmony-shard-0": "0x8143e2a1085939caa9cef6665c2ff32f7bc08435",
-            "energi": "0x591c19dc0821704bedaa5bbc6a66fee277d9437e"
+            "energi": "0x591c19dc0821704bedaa5bbc6a66fee277d9437e",
+            "avalanche": "0x596fa47043f99a4e0f122243b841e55375cde0d2"
         }
     },
     {
@@ -71,750 +84,6 @@ const CoinsResponse = `[
         "name": "Landwolf",
         "platforms": {
             "ethereum": "0x67859a9314b9dca2642023ad8231beaa6cbf1933"
-        }
-    },
-    {
-        "id": "0xadventure",
-        "symbol": "zad",
-        "name": "0xAdventure",
-        "platforms": {
-            "solana": "6ZVHP3A9X7Q3UaJiUdpqGRJDfQMbHMFW5ptE1GQ77fD"
-        }
-    },
-    {
-        "id": "0xaiswap",
-        "symbol": "0xaiswap",
-        "name": "0xAISwap",
-        "platforms": {
-            "ethereum": "0x8c6778023c3d4fd79ddd14810079f64c39e9e43d"
-        }
-    },
-    {
-        "id": "0xanon",
-        "symbol": "0xanon",
-        "name": "0xAnon",
-        "platforms": {
-            "ethereum": "0x7199b5a15c7fb79aa861780230adc65fff99ec73"
-        }
-    },
-    {
-        "id": "0xcoco",
-        "symbol": "coco",
-        "name": "0xCoco",
-        "platforms": {
-            "ethereum": "0xcb50350ab555ed5d56265e096288536e8cac41eb"
-        }
-    },
-    {
-        "id": "0xdao",
-        "symbol": "oxd",
-        "name": "0xDAO",
-        "platforms": {
-            "fantom": "0xc165d941481e68696f43ee6e99bfb2b23e0e3114"
-        }
-    },
-    {
-        "id": "0xdefcafe",
-        "symbol": "cafe",
-        "name": "0xDEFCAFE",
-        "platforms": {
-            "ethereum": "0xdefcafe7eac90d31bbba841038df365de3c4e207",
-            "binance-smart-chain": "0xdefcafe7eac90d31bbba841038df365de3c4e207"
-        }
-    },
-    {
-        "id": "0xgasless-2",
-        "symbol": "0xgas",
-        "name": "0xGasless",
-        "platforms": {
-            "ethereum": "0x5fc111f3fa4c6b32eaf65659cfebdeed57234069"
-        }
-    },
-    {
-        "id": "0xgen",
-        "symbol": "xgn",
-        "name": "0xGen",
-        "platforms": {
-            "ethereum": "0x683c8e87e74f3f8f27c0d2ebd4350fe4dba814ef"
-        }
-    },
-    {
-        "id": "0x-leverage",
-        "symbol": "oxl",
-        "name": "0x Leverage",
-        "platforms": {
-            "ethereum": "0x03ee5026c07d85ff8ae791370dd0f4c1ae6c97fc"
-        }
-    },
-    {
-        "id": "0xlp",
-        "symbol": "openli",
-        "name": "OpenLiquidity",
-        "platforms": {
-            "ethereum": "0xfa955ec865f51c55e3b6ce02528a6844c2eb9c26"
-        }
-    },
-    {
-        "id": "0xlsd",
-        "symbol": "0xlsd",
-        "name": "0xLSD",
-        "platforms": {}
-    },
-    {
-        "id": "0xmonero",
-        "symbol": "0xmr",
-        "name": "0xMonero",
-        "platforms": {
-            "ethereum": "0x035df12e0f3ac6671126525f1015e47d79dfeddf",
-            "xdai": "0x8c88ea1fd60462ef7004b9e288afcb4680a3c50c",
-            "polygon-pos": "0x52ede6bba83b7b4ba1d738df0df713d6a2036b71",
-            "binance-smart-chain": "0x22a213852cee93eb6d41601133414d180c5684c2",
-            "fantom": "0xab41861399eb56896b24fbaabaa8bce45e4a626b",
-            "aurora": "0x7ea2be2df7ba6e54b1a9c70676f668455e329d29"
-        }
-    },
-		{
-        "id": "binancecoin",
-        "symbol": "bnb",
-        "name": "BNB",
-        "platforms": {
-            "ethereum": "0xb8c77482e45f1f44de1745f52c74426c631bdd52"
-        }
-    },    
-		{
-        "id": "0xnumber",
-        "symbol": "oxn",
-        "name": "0xNumber",
-        "platforms": {
-            "ethereum": "0x9012744b7a564623b6c3e40b144fc196bdedf1a9"
-        }
-    },
-    {
-        "id": "0xprivacy",
-        "symbol": "0xp",
-        "name": "0xPrivacy",
-        "platforms": {
-            "ethereum": "0x46b7cb31a4a6375c69a6d0b9ed9261fb649adb83"
-        }
-    },
-    {
-        "id": "0xscans",
-        "symbol": "scan",
-        "name": "0xScans",
-        "platforms": {
-            "ethereum": "0x10703ca5e253306e2ababd68e963198be8887c81"
-        }
-    },
-    {
-        "id": "0xvpn-org",
-        "symbol": "vpn",
-        "name": "0xVPN.org",
-        "platforms": {
-            "ethereum": "0xf898bae008cd85046431ab0a75f00689d6aa1b1c"
-        }
-    },
-    {
-        "id": "1000bonk",
-        "symbol": "1000bonk",
-        "name": "1000BONK",
-        "platforms": {}
-    },
-    {
-        "id": "1000btt",
-        "symbol": "1000btt",
-        "name": "1000BTT",
-        "platforms": {}
-    },
-    {
-        "id": "1000rats",
-        "symbol": "1000rats",
-        "name": "1000RATS",
-        "platforms": {}
-    },
-    {
-        "id": "1000sats-ordinals",
-        "symbol": "1000sats",
-        "name": "1000SATS (Ordinals)",
-        "platforms": {}
-    },
-    {
-        "id": "1000shib",
-        "symbol": "1000shib",
-        "name": "1000SHIB",
-        "platforms": {}
-    },
-    {
-        "id": "1000troll",
-        "symbol": "1000troll",
-        "name": "1000TROLL",
-        "platforms": {}
-    },
-    {
-        "id": "16dao",
-        "symbol": "16dao",
-        "name": "16DAO",
-        "platforms": {
-            "polygon-pos": "0x4a5599a249fdc53bd4746e7d9078edb7543bd0a9"
-        }
-    },
-    {
-        "id": "1art",
-        "symbol": "1art",
-        "name": "OneArt",
-        "platforms": {
-            "binance-smart-chain": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
-            "fantom": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
-            "ethereum": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e"
-        }
-    },
-    {
-        "id": "1-dollar-sol-coin",
-        "symbol": "$1",
-        "name": "$1",
-        "platforms": {
-            "solana": "4UTEFQjNMvfQF5NT8mVfXdMAKoL7hS7i9U4mMVAzpump"
-        }
-    },
-    {
-        "id": "1ex",
-        "symbol": "1ex",
-        "name": "1ex",
-        "platforms": {
-            "ethereum": "0x668d78571f124415581b38d32fa9a16f1aaa8417"
-        }
-    },
-    {
-        "id": "1guy",
-        "symbol": "1guy",
-        "name": "1GUY",
-        "platforms": {
-            "binance-smart-chain": "0xcac007926755e2675e201223f7d4d68c74fd3439"
-        }
-    },
-    {
-        "id": "1hive-water",
-        "symbol": "water",
-        "name": "1Hive Water",
-        "platforms": {
-            "xdai": "0x4291f029b9e7acb02d49428458cf6fceac545f81"
-        }
-    },
-    {
-        "id": "1inch",
-        "symbol": "1inch",
-        "name": "1inch",
-        "platforms": {
-            "ethereum": "0x111111111117dc0aa78b770fa6a738034120c302",
-            "harmony-shard-0": "0x58f1b044d8308812881a1433d9bbeff99975e70c",
-            "avalanche": "0xd501281565bf7789224523144fe5d98e8b28f267",
-            "binance-smart-chain": "0x111111111117dc0aa78b770fa6a738034120c302",
-            "near-protocol": "111111111117dc0aa78b770fa6a738034120c302.factory.bridge.near",
-            "polygon-pos": "0x9c2c5fd7b07e95ee044ddeba0e97a665f142394f",
-            "energi": "0xdda6205dc3f47e5280eb726613b27374eee9d130"
-        }
-    },
-    {
-        "id": "1inch-yvault",
-        "symbol": "yv1inch",
-        "name": "1INCH yVault",
-        "platforms": {
-            "ethereum": "0xb8c3b7a2a618c552c23b1e4701109a9e756bab67"
-        }
-    },
-    {
-        "id": "1intro",
-        "symbol": "intro",
-        "name": "1intro",
-        "platforms": {
-            "solana": "inTCqHJaLAETUxvRZ2kC45G2sThq9BFWVimfaQw7t6w"
-        }
-    },
-    {
-        "id": "1mdc",
-        "symbol": "1mdc",
-        "name": "1MDC",
-        "platforms": {
-            "binance-smart-chain": "0xf43c9b40c9361b301019c98fb535affb3ec6c673"
-        }
-    },
-    {
-        "id": "1million-nfts",
-        "symbol": "1mil",
-        "name": "1MillionNFTs",
-        "platforms": {
-            "ethereum": "0xa4ef4b0b23c1fc81d3f9ecf93510e64f58a4a016",
-            "near-protocol": "a4ef4b0b23c1fc81d3f9ecf93510e64f58a4a016.factory.bridge.near"
-        }
-    },
-    {
-        "id": "1move token",
-        "symbol": "1mt",
-        "name": "1Move Token",
-        "platforms": {
-            "binance-smart-chain": "0x7c56d81ecb5e1d287a1e22b89b01348f07be3541"
-        }
-    },
-    {
-        "id": "1-percent",
-        "symbol": "1%",
-        "name": "1%",
-        "platforms": {
-            "solana": "3dwu2tw7kBFZvWEdJMbPCGm7MBwgziABChLV1kGspump"
-        }
-    },
-    {
-        "id": "1reward-token",
-        "symbol": "1rt",
-        "name": "1Reward Token",
-        "platforms": {
-            "binance-smart-chain": "0x012a6a39eec345a0ea2b994b17875e721d17ee45"
-        }
-    },
-    {
-        "id": "1rus-btc25",
-        "symbol": "@btc25",
-        "name": "1RUS BTC25",
-        "platforms": {
-            "the-open-network": "EQC7rnHHtMVBKyhiGnAbtYIlzGxS0dfi3ZbHExFX0LYi9cAH"
-        }
-    },
-    {
-        "id": "1rus-dao",
-        "symbol": "1rusd",
-        "name": "1RUS DAO",
-        "platforms": {
-            "the-open-network": "EQBT2Ee4Lx5w9uI7oMly5upXNs3ABWL_Fwk1uiM74gZCGaYt"
-        }
-    },
-    {
-        "id": "1sol",
-        "symbol": "1sol",
-        "name": "1Sol",
-        "platforms": {
-            "ethereum": "0x009178997aff09a67d4caccfeb897fb79d036214"
-        }
-    },
-    {
-        "id": "-2",
-        "symbol": "₿",
-        "name": "₿",
-        "platforms": {
-            "ethereum": "0xe4efdd2eb216a4620cfa55c5cc67bd09dc64ff24"
-        }
-    },
-    {
-        "id": "2024pump",
-        "symbol": "pump",
-        "name": "2024PUMP",
-        "platforms": {
-            "binance-smart-chain": "0xcee4e6f4d8e634e329c457a4f98c090afafb1c4b"
-        }
-    },
-    {
-        "id": "2080",
-        "symbol": "2080",
-        "name": "2080",
-        "platforms": {
-            "solana": "Dwri1iuy5pDFf2u2GwwsH2MxjR6dATyDv9En9Jk8Fkof",
-            "neon-evm": "0x96e636d3ef60ee9745945120010c73619144632c"
-        }
-    },
-    {
-        "id": "20ex",
-        "symbol": "20ex",
-        "name": "20EX",
-        "platforms": {}
-    },
-    {
-        "id": "21million",
-        "symbol": "21m",
-        "name": "21Million",
-        "platforms": {
-            "binance-smart-chain": "0x0d07873cacd5f40f47fb19b2c1115b7e1a9db4bf"
-        }
-    },
-    {
-        "id": "21x",
-        "symbol": "21x",
-        "name": "21X Diamonds",
-        "platforms": {
-            "solana": "6r4PCVaX4rYN9WdbXwVWAQL4djFoUaeBMsq8Cxc6NApZ"
-        }
-    },
-    {
-        "id": "28vck",
-        "symbol": "vck",
-        "name": "28VCK",
-        "platforms": {
-            "ethereum": "0xfa5b75a9e13df9775cf5b996a049d9cc07c15731"
-        }
-    },
-    {
-        "id": "2dai-io",
-        "symbol": "2dai",
-        "name": "2DAI.io",
-        "platforms": {
-            "ethereum": "0xb44b653f147569d88a684cbf6549e1968e8b2a1d"
-        }
-    },
-    {
-        "id": "2fai",
-        "symbol": "2fai",
-        "name": "2FAI",
-        "platforms": {
-            "base": "0x1c1ec1bb5f12f24c97231165b13f3eab9d4ec00e"
-        }
-    },
-    {
-        "id": "2g-carbon-coin",
-        "symbol": "2gcc",
-        "name": "2G Carbon Coin",
-        "platforms": {
-            "binance-smart-chain": "0x1a515bf4e35aa2df67109281de6b3b00ec37675e"
-        }
-    },
-    {
-        "id": "2moon",
-        "symbol": "moon",
-        "name": "2MOON",
-        "platforms": {
-            "binance-smart-chain": "0x817b32d386cfc1f872de306dfaedfda36429ca1e"
-        }
-    },
-    {
-        "id": "2omb-finance",
-        "symbol": "2omb",
-        "name": "2omb",
-        "platforms": {
-            "fantom": "0x7a6e4e3cc2ac9924605dca4ba31d1831c84b44ae"
-        }
-    },
-    {
-        "id": "2share",
-        "symbol": "2shares",
-        "name": "2SHARE",
-        "platforms": {
-            "fantom": "0xc54a1684fd1bef1f077a336e6be4bd9a3096a6ca"
-        }
-    },
-    {
-        "id": "-3",
-        "symbol": "meow",
-        "name": "Meow Meow Coin",
-        "platforms": {
-            "ethereum": "0x77be1ba1cd2d7a63bffc772d361168cc327dd8bc"
-        }
-    },
-    {
-        "id": "300fit",
-        "symbol": "fit",
-        "name": "300FIT",
-        "platforms": {
-            "ethereum": "0x3c72fca8523686fd9e5740b0826fa4bb376e0241"
-        }
-    },
-    {
-        "id": "360noscope420blazeit",
-        "symbol": "mlg",
-        "name": "360noscope420blazeit",
-        "platforms": {
-            "solana": "7XJiwLDrjzxDYdZipnJXzpr1iDTmK55XixSFAa7JgNEL"
-        }
-    },
-    {
-        "id": "3a-lending-protocol",
-        "symbol": "a3a",
-        "name": "3A",
-        "platforms": {
-            "ethereum": "0x3f817b28da4940f018c6b5c0a11c555ebb1264f9",
-            "polygon-pos": "0x58c7b2828e7f2b2caa0cc7feef242fa3196d03df",
-            "linea": "0x3d4b2132ed4ea0aa93903713a4de9f98e625a5c7"
-        }
-    },
-    {
-        "id": "3d3d",
-        "symbol": "3d3d",
-        "name": "3d3d",
-        "platforms": {
-            "ethereum": "0xfe60fba03048effb4acf3f0088ec2f53d779d3bb"
-        }
-    },
-    {
-        "id": "3dpass",
-        "symbol": "p3d",
-        "name": "3DPass",
-        "platforms": {}
-    },
-    {
-        "id": "3-kingdoms-multiverse",
-        "symbol": "3km",
-        "name": "3 Kingdoms Multiverse",
-        "platforms": {
-            "klay-token": "0x0ab503536019cb4303bda69467c1ec5de1589918"
-        }
-    },
-    {
-        "id": "3space-art",
-        "symbol": "pace",
-        "name": "3SPACE ART",
-        "platforms": {
-            "ethereum": "0x8bc2bcb1b1896291942c36f3cca3c1afa0aaa7fd"
-        }
-    },
-    {
-        "id": "4",
-        "symbol": "four",
-        "name": "4",
-        "platforms": {
-            "binance-smart-chain": "0x21fd16cd0ef24a49d28429921e335bb0c1bfadb3"
-        }
-    },
-    {
-        "id": "-4",
-        "symbol": "🤡",
-        "name": "🤡",
-        "platforms": {
-            "solana": "CGvA4rngdetvEVDsuyRUWsYAxU434cqfCRRLFrgJ9gJT"
-        }
-    },
-    {
-        "id": "404aliens",
-        "symbol": "404a",
-        "name": "404Aliens",
-        "platforms": {
-            "ethereum": "0xd0d19f52ad8705e60ff31df75a7aca8f1399a69e"
-        }
-    },
-    {
-        "id": "404-bakery",
-        "symbol": "bake",
-        "name": "404 Bakery",
-        "platforms": {
-            "ethereum": "0x44face2e310e543f6d85867eb06fb251e3bfe1fc"
-        }
-    },
-    {
-        "id": "404blocks",
-        "symbol": "404blocks",
-        "name": "404Blocks",
-        "platforms": {
-            "ethereum": "0x45b3cf56896c4547426a4145ad1d0ae971120214"
-        }
-    },
-    {
-        "id": "404ver",
-        "symbol": "top",
-        "name": "404ver",
-        "platforms": {
-            "alephium": "utDzMDHq8fygNzqZjCgRjhJbj1Rew14ExohxngeRKA1D"
-        }
-    },
-    {
-        "id": "4096",
-        "symbol": "4096",
-        "name": "4096",
-        "platforms": {
-            "ethereum": "0x4096fc7119040175589387656f7c6073265f4096"
-        }
-    },
-    {
-        "id": "42-coin",
-        "symbol": "42",
-        "name": "42-coin",
-        "platforms": {
-            "binance-smart-chain": "0x73cf73c2503154de4dc12067546aa9357dadaff2"
-        }
-    },
-    {
-        "id": "4547-token",
-        "symbol": "4547",
-        "name": "4547",
-        "platforms": {
-            "solana": "Pj3sX83x2gsxwwfzhUuszdA8EWcJvkJ4g3k3LCfpump"
-        }
-    },
-    {
-        "id": "47th-potus",
-        "symbol": "trump47",
-        "name": "47th POTUS",
-        "platforms": {
-            "ethereum": "0x535887989b9edffb63b1fd5c6b99a4d45443b49a"
-        }
-    },
-    {
-        "id": "4chan",
-        "symbol": "4chan",
-        "name": "4Chan",
-        "platforms": {
-            "ethereum": "0xe0a458bf4acf353cb45e211281a334bb1d837885"
-        }
-    },
-    {
-        "id": "4dcoin",
-        "symbol": "4dc",
-        "name": "4DCoin",
-        "platforms": {
-            "binance-smart-chain": "0x4e7ef0077a1bc31fd9bcadd6ca149dea9c3faedb"
-        }
-    },
-    {
-        "id": "4d-twin-maps-2",
-        "symbol": "4dmaps",
-        "name": "4D Twin Maps",
-        "platforms": {
-            "binance-smart-chain": "0xd99903242745e8e3ecf1e2a7d4f6052282f891ee"
-        }
-    },
-    {
-        "id": "4int",
-        "symbol": "4int",
-        "name": "4INT",
-        "platforms": {
-            "polygon-pos": "0x5ceebb0947d58fabde2fc026ffe4b33ccfe1ba8b"
-        }
-    },
-    {
-        "id": "4-next-unicorn",
-        "symbol": "nxtu",
-        "name": "4 Next Unicorn",
-        "platforms": {
-            "binance-smart-chain": "0xac927db34e4648781a32a9a4b673cee28c4ec4fe"
-        }
-    },
-    {
-        "id": "4tb-coin",
-        "symbol": "4tb",
-        "name": "4TB Coin",
-        "platforms": {
-            "tron": "TQgcDvhr6c1EUDnFxiAmuYpBewT3uJSnHF"
-        }
-    },
-    {
-        "id": "4trump",
-        "symbol": "4win",
-        "name": "4TRUMP",
-        "platforms": {
-            "solana": "4TRUMPJwguiFjfY6PLpwT6SZ5BZmCuzfqWWeJAdR6xP3"
-        }
-    },
-    {
-        "id": "4-way-mirror-money",
-        "symbol": "4wmm",
-        "name": "4-Way Mirror Money",
-        "platforms": {
-            "pulsechain": "0x8bf45680485b2ac15e452a9599e87b94c5a07792"
-        }
-    },
-    {
-        "id": "5g-cash",
-        "symbol": "vgc",
-        "name": "5G-CASH",
-        "platforms": {}
-    },
-    {
-        "id": "5ire",
-        "symbol": "5ire",
-        "name": "5ire",
-        "platforms": {
-            "ethereum": "0x3bd7d4f524d09f4e331577247a048d56e4b67a7f"
-        }
-    },
-    {
-        "id": "5mc",
-        "symbol": "5mc",
-        "name": "5mc",
-        "platforms": {
-            "polygon-pos": "0xa1fd25f9d59768dfaa376b25a46df2ab2729fb83"
-        }
-    },
-    {
-        "id": "69420",
-        "symbol": "69420",
-        "name": "69420",
-        "platforms": {
-            "ethereum": "0x69cbaf6c147086c3c234385556f8a0c6488d3420"
-        }
-    },
-    {
-        "id": "777",
-        "symbol": "777",
-        "name": "777",
-        "platforms": {
-            "Bitcichain": "0x4a2e63fdff734f11a7c09bfcc040eb55dadaa988"
-        }
-    },
-    {
-        "id": "777fuckilluminatiworldwid",
-        "symbol": "fiw",
-        "name": "777FuckIlluminatiWorldwid",
-        "platforms": {
-            "solana": "FeKmTunVrXDKEoDJbuTwZi8vfFFw3MHzpPB79JD8ARYU"
-        }
-    },
-    {
-        "id": "888-token",
-        "symbol": "888",
-        "name": "888",
-        "platforms": {
-            "solana": "888R77WmcLJKyGeJjk1WktFAB5u5fkvmokHYsAu6Spyd"
-        }
-    },
-    {
-        "id": "88mph",
-        "symbol": "mph",
-        "name": "88mph",
-        "platforms": {
-            "ethereum": "0x8888801af4d980682e47f1a9036e589479e835c5"
-        }
-    },
-    {
-        "id": "8bit-chain",
-        "symbol": "w8bit",
-        "name": "8Bit Chain",
-        "platforms": {
-            "binance-smart-chain": "0xb7ae4ea886face39d47a47f46d6afabcaad5af6e"
-        }
-    },
-    {
-        "id": "8-bit-coin",
-        "symbol": "coin",
-        "name": "8-Bit Coin",
-        "platforms": {
-            "solana": "3xvLSHrLcM7246X1vu34cM9gNX741kQrzqj6T2HhLvXp"
-        }
-    },
-    {
-        "id": "8pay",
-        "symbol": "8pay",
-        "name": "8Pay",
-        "platforms": {
-            "binance-smart-chain": "0x6eadc05928acd93efb3fa0dfbc644d96c6aa1df8",
-            "polygon-pos": "0x06ddb3a8bc0abc14f85e974cf1a93a6f8d4909d9",
-            "ethereum": "0x06ddb3a8bc0abc14f85e974cf1a93a6f8d4909d9"
-        }
-    },
-    {
-        "id": "90-s-kid",
-        "symbol": "kids",
-        "name": "90's KID",
-        "platforms": {
-            "cronos": "0x251f890e708972ed7c9147a7f12a618e767eb760"
-        }
-    },
-    {
-        "id": "9-5",
-        "symbol": "9-5",
-        "name": "9to5",
-        "platforms": {
-            "base": "0xd727e37dccd5720d1e3849606d3ab669cb68c368"
-        }
-    },
-    {
-        "id": "99-bitcoins",
-        "symbol": "99btc",
-        "name": "99 Bitcoins",
-        "platforms": {
-            "ethereum": "0xc2eb40516ecaac04ae9964934983d1e9ebdf51fd"
         }
     }
 ]`
@@ -5777,6 +5046,1764 @@ const FullCoinResponse = `{
     ]
 }`
 
+const Coin4Trump = `{
+    "id": "4trump",
+    "symbol": "4win",
+    "name": "4TRUMP",
+    "web_slug": "4trump",
+    "asset_platform_id": "solana",
+    "platforms": {
+        "solana": "4TRUMPJwguiFjfY6PLpwT6SZ5BZmCuzfqWWeJAdR6xP3"
+    },
+    "detail_platforms": {
+        "solana": {
+            "decimal_place": 6,
+            "contract_address": "4TRUMPJwguiFjfY6PLpwT6SZ5BZmCuzfqWWeJAdR6xP3"
+        }
+    },
+    "block_time_in_minutes": 0,
+    "hashing_algorithm": null,
+    "categories": [
+        "Solana Ecosystem",
+        "Meme",
+        "Solana Meme",
+        "PolitiFi"
+    ],
+    "preview_listing": false,
+    "public_notice": null,
+    "additional_notices": [
+        "Kindly be aware of <a href='https://www.coingecko.com/en/glossary/rug-pulled' target='_blank'>liquidity-related risks</a>. This notice is not directed at any project in particular, and is more of a cautionary reminder."
+    ],
+    "localization": {
+        "en": "4TRUMP",
+        "de": "",
+        "es": "",
+        "fr": "",
+        "it": "",
+        "pl": "",
+        "ro": "",
+        "hu": "",
+        "nl": "",
+        "pt": "",
+        "sv": "",
+        "vi": "",
+        "tr": "",
+        "ru": "",
+        "ja": "",
+        "zh": "",
+        "zh-tw": "",
+        "ko": "",
+        "ar": "",
+        "th": "",
+        "id": "",
+        "cs": "",
+        "da": "",
+        "el": "",
+        "hi": "",
+        "no": "",
+        "sk": "",
+        "uk": "",
+        "he": "",
+        "fi": "",
+        "bg": "",
+        "hr": "",
+        "lt": "",
+        "sl": ""
+    },
+    "description": {
+        "en": "What is the project about?\r\n4TRUMP (4WIN) is a revolutionary meme coin that aims to unite the power of meme culture and the spirit of innovation under one banner. The project draws inspiration from the enigmatic figures of Donald Trump, blending their influence and the meme-centric ethos into a cryptocurrency that is as engaging as it is powerful. With the vision of creating a meme coin that transcends the boundaries of traditional digital currencies, 4TRUMP (4WIN) is poised to redefine the landscape of meme coins in the blockchain ecosystem.\r\n\r\nWhat makes your project unique? \r\nThe unique concept of truly a decentralized platform, renounced contract and exceptional development team backing the project have seen 4TRUMP grow massively and achieve alot of success in a short time frame\r\n\r\n\r\nHistory of your project?\r\nWe set out to create a community-driven token with strong tokenomics, transparency, and fun. Since then, 4TRUMP has established itself as a leading player in the world of meme tokens, with a growing community and exciting plans for the future.\r\n\r\nWhat's next for your project?\r\nWe're focused on building a strong and sustainable token economy that rewards long-term holders and fosters a vibrant community.\r\n\r\nWhat can your token be used for?\r\n4TRUMP (4WIN) is a meme-focused cryptocurrency on the Solana blockchain, creatively leveraging political and pop culture themes for community engagement and humor. This token embodies the playful spirit of meme culture in the crypto sphere, attracting participants interested in speculative investments tied to cultural phenomena As a community-driven project, it aims to capitalize on the virality of memes, encouraging a fun and engaging atmosphere among its holders.",
+        "de": "",
+        "es": "",
+        "fr": "",
+        "it": "",
+        "pl": "",
+        "ro": "",
+        "hu": "",
+        "nl": "",
+        "pt": "",
+        "sv": "",
+        "vi": "",
+        "tr": "",
+        "ru": "",
+        "ja": "",
+        "zh": "",
+        "zh-tw": "",
+        "ko": "",
+        "ar": "",
+        "th": "",
+        "id": "",
+        "cs": "",
+        "da": "",
+        "el": "",
+        "hi": "",
+        "no": "",
+        "sk": "",
+        "uk": "",
+        "he": "",
+        "fi": "",
+        "bg": "",
+        "hr": "",
+        "lt": "",
+        "sl": ""
+    },
+    "links": {
+        "homepage": [
+            "https://trump4win.com/"
+        ],
+        "whitepaper": "https://trump4win.com/",
+        "blockchain_site": [
+            "https://solscan.io/token/4trumpjwguifjfy6plpwt6sz5bzmcuzfqwwejadr6xp3",
+            "https://platform.arkhamintelligence.com/explorer/token/4trump"
+        ],
+        "official_forum_url": [],
+        "chat_url": [],
+        "announcement_url": [],
+        "snapshot_url": null,
+        "twitter_screen_name": "4Trump_4WIN",
+        "facebook_username": null,
+        "bitcointalk_thread_identifier": null,
+        "telegram_channel_identifier": "sol4trump_4win",
+        "subreddit_url": null,
+        "repos_url": {
+            "github": [],
+            "bitbucket": []
+        }
+    },
+    "image": {
+        "thumb": "https://coin-images.coingecko.com/coins/images/39919/thumb/1000164776.jpg?1724798089",
+        "small": "https://coin-images.coingecko.com/coins/images/39919/small/1000164776.jpg?1724798089",
+        "large": "https://coin-images.coingecko.com/coins/images/39919/large/1000164776.jpg?1724798089"
+    },
+    "country_origin": null,
+    "genesis_date": null,
+    "contract_address": "4TRUMPJwguiFjfY6PLpwT6SZ5BZmCuzfqWWeJAdR6xP3",
+    "sentiment_votes_up_percentage": null,
+    "sentiment_votes_down_percentage": null,
+    "watchlist_portfolio_users": 160,
+    "market_cap_rank": 8289,
+    "market_data": {
+        "current_price": {
+            "aed": 0.00119573,
+            "ars": 0.345823,
+            "aud": 0.00051896,
+            "bch": 1.0e-06,
+            "bdt": 0.03945753,
+            "bhd": 0.00012199,
+            "bmd": 0.00032555,
+            "bnb": 5.23938e-07,
+            "brl": 0.00186694,
+            "btc": 3.86e-09,
+            "cad": 0.00046955,
+            "chf": 0.00028777,
+            "clp": 0.3023,
+            "cny": 0.00235996,
+            "czk": 0.00752707,
+            "dkk": 0.00224555,
+            "dot": 7.31e-05,
+            "eos": 0.00058036,
+            "eth": 1.61431e-07,
+            "eur": 0.00029937,
+            "gbp": 0.00025199,
+            "gel": 0.00090339,
+            "hkd": 0.00253113,
+            "huf": 0.119001,
+            "idr": 5.38,
+            "ils": 0.00120231,
+            "inr": 0.02799512,
+            "jpy": 0.04861207,
+            "krw": 0.477178,
+            "kwd": 9.972e-05,
+            "lkr": 0.096241,
+            "ltc": 3.53e-06,
+            "mmk": 0.682995,
+            "mxn": 0.00658878,
+            "myr": 0.00143989,
+            "ngn": 0.49687,
+            "nok": 0.00344145,
+            "nzd": 0.00056814,
+            "php": 0.01866027,
+            "pkr": 0.090995,
+            "pln": 0.00126265,
+            "rub": 0.02734616,
+            "sar": 0.0012212,
+            "sek": 0.00330018,
+            "sgd": 0.00043408,
+            "thb": 0.01097592,
+            "try": 0.01230236,
+            "twd": 0.01073975,
+            "uah": 0.01348777,
+            "usd": 0.00032555,
+            "vef": 3.26e-05,
+            "vnd": 8.34,
+            "xag": 9.86e-06,
+            "xau": 1.0769e-07,
+            "xdr": 0.00024416,
+            "xlm": 0.00117196,
+            "xrp": 0.00013623,
+            "yfi": 6.2544e-08,
+            "zar": 0.00593551,
+            "bits": 0.00386024,
+            "link": 2.271e-05,
+            "sats": 0.386024
+        },
+        "total_value_locked": null,
+        "mcap_to_tvl_ratio": null,
+        "fdv_to_tvl_ratio": null,
+        "roi": null,
+        "ath": {
+            "aed": 0.531631,
+            "ars": 138.99,
+            "aud": 0.215901,
+            "bch": 0.00044101,
+            "bdt": 17.3,
+            "bhd": 0.054489,
+            "bmd": 0.14474,
+            "bnb": 0.00026043,
+            "brl": 0.805505,
+            "btc": 2.4e-06,
+            "cad": 0.196796,
+            "chf": 0.122908,
+            "clp": 134.74,
+            "cny": 1.027,
+            "czk": 3.28,
+            "dkk": 0.975202,
+            "dot": 0.03247623,
+            "eos": 0.2901759,
+            "eth": 5.969e-05,
+            "eur": 0.130602,
+            "gbp": 0.110291,
+            "gel": 0.390799,
+            "hkd": 1.13,
+            "huf": 51.6,
+            "idr": 2230.69,
+            "ils": 0.536798,
+            "inr": 12.14,
+            "jpy": 20.38,
+            "krw": 192.4,
+            "kwd": 0.04418283,
+            "lkr": 43.62,
+            "ltc": 0.00218589,
+            "mmk": 303.67,
+            "mxn": 2.78,
+            "myr": 0.6226,
+            "ngn": 237.24,
+            "nok": 1.54,
+            "nzd": 0.235274,
+            "php": 8.1,
+            "pkr": 40.27,
+            "pln": 0.559479,
+            "rub": 13.01,
+            "sar": 0.543128,
+            "sek": 1.48,
+            "sgd": 0.187945,
+            "thb": 4.83,
+            "try": 4.91,
+            "twd": 4.62,
+            "uah": 5.99,
+            "usd": 0.14474,
+            "vef": 0.01449284,
+            "vnd": 3556.99,
+            "xag": 0.00471206,
+            "xau": 5.612e-05,
+            "xdr": 0.107307,
+            "xlm": 1.488236,
+            "xrp": 0.24368798,
+            "yfi": 2.92e-05,
+            "zar": 2.57,
+            "bits": 2.4,
+            "link": 0.01278874,
+            "sats": 240.38
+        },
+        "ath_change_percentage": {
+            "aed": -99.7751,
+            "ars": -99.7512,
+            "aud": -99.75965,
+            "bch": -99.77236,
+            "bdt": -99.77197,
+            "bhd": -99.77614,
+            "bmd": -99.7751,
+            "bnb": -99.79886,
+            "brl": -99.76825,
+            "btc": -99.83942,
+            "cad": -99.76142,
+            "chf": -99.76588,
+            "clp": -99.77565,
+            "cny": -99.77016,
+            "czk": -99.77085,
+            "dkk": -99.76975,
+            "dot": -99.77477,
+            "eos": -99.79988,
+            "eth": -99.72967,
+            "eur": -99.7708,
+            "gbp": -99.77154,
+            "gel": -99.76885,
+            "hkd": -99.7758,
+            "huf": -99.76939,
+            "idr": -99.75884,
+            "ils": -99.77604,
+            "inr": -99.76943,
+            "jpy": -99.76154,
+            "krw": -99.752,
+            "kwd": -99.77432,
+            "lkr": -99.77938,
+            "ltc": -99.83861,
+            "mmk": -99.7751,
+            "mxn": -99.76312,
+            "myr": -99.76875,
+            "ngn": -99.79058,
+            "nok": -99.77703,
+            "nzd": -99.75854,
+            "php": -99.76955,
+            "pkr": -99.77408,
+            "pln": -99.77433,
+            "rub": -99.78983,
+            "sar": -99.77517,
+            "sek": -99.77731,
+            "sgd": -99.76906,
+            "thb": -99.77267,
+            "try": -99.74941,
+            "twd": -99.7678,
+            "uah": -99.7748,
+            "usd": -99.7751,
+            "vef": -99.7751,
+            "vnd": -99.76567,
+            "xag": -99.79087,
+            "xau": -99.80812,
+            "xdr": -99.77249,
+            "xlm": -99.92125,
+            "xrp": -99.94409,
+            "yfi": -99.78584,
+            "zar": -99.76905,
+            "bits": -99.83942,
+            "link": -99.82239,
+            "sats": -99.83942
+        },
+        "ath_date": {
+            "aed": "2024-09-15T01:49:27.961Z",
+            "ars": "2024-09-15T01:49:27.961Z",
+            "aud": "2024-09-15T01:49:27.961Z",
+            "bch": "2024-09-15T01:49:27.961Z",
+            "bdt": "2024-09-15T01:49:27.961Z",
+            "bhd": "2024-09-15T01:49:27.961Z",
+            "bmd": "2024-09-15T01:49:27.961Z",
+            "bnb": "2024-09-15T01:49:27.961Z",
+            "brl": "2024-09-15T01:49:27.961Z",
+            "btc": "2024-09-15T01:49:27.961Z",
+            "cad": "2024-09-15T01:49:27.961Z",
+            "chf": "2024-09-15T01:49:27.961Z",
+            "clp": "2024-09-15T01:49:27.961Z",
+            "cny": "2024-09-15T01:49:27.961Z",
+            "czk": "2024-09-15T01:49:27.961Z",
+            "dkk": "2024-09-15T01:49:27.961Z",
+            "dot": "2024-09-15T01:49:27.961Z",
+            "eos": "2024-09-15T01:49:27.961Z",
+            "eth": "2024-09-15T01:49:27.961Z",
+            "eur": "2024-09-15T01:49:27.961Z",
+            "gbp": "2024-09-15T01:49:27.961Z",
+            "gel": "2024-09-15T01:49:27.961Z",
+            "hkd": "2024-09-15T01:49:27.961Z",
+            "huf": "2024-09-15T01:49:27.961Z",
+            "idr": "2024-09-15T01:49:27.961Z",
+            "ils": "2024-09-15T01:49:27.961Z",
+            "inr": "2024-09-15T01:49:27.961Z",
+            "jpy": "2024-09-15T01:49:27.961Z",
+            "krw": "2024-09-15T01:49:27.961Z",
+            "kwd": "2024-09-15T01:49:27.961Z",
+            "lkr": "2024-09-15T01:49:27.961Z",
+            "ltc": "2024-09-15T01:49:27.961Z",
+            "mmk": "2024-09-15T01:49:27.961Z",
+            "mxn": "2024-09-15T01:49:27.961Z",
+            "myr": "2024-09-15T01:49:27.961Z",
+            "ngn": "2024-09-15T01:49:27.961Z",
+            "nok": "2024-09-15T01:49:27.961Z",
+            "nzd": "2024-09-15T01:49:27.961Z",
+            "php": "2024-09-15T01:49:27.961Z",
+            "pkr": "2024-09-15T01:49:27.961Z",
+            "pln": "2024-09-15T01:49:27.961Z",
+            "rub": "2024-09-15T01:49:27.961Z",
+            "sar": "2024-09-15T01:49:27.961Z",
+            "sek": "2024-09-15T01:49:27.961Z",
+            "sgd": "2024-09-15T01:49:27.961Z",
+            "thb": "2024-09-15T01:49:27.961Z",
+            "try": "2024-09-15T01:49:27.961Z",
+            "twd": "2024-09-15T01:49:27.961Z",
+            "uah": "2024-09-15T01:49:27.961Z",
+            "usd": "2024-09-15T01:49:27.961Z",
+            "vef": "2024-09-15T01:49:27.961Z",
+            "vnd": "2024-09-15T01:49:27.961Z",
+            "xag": "2024-09-15T01:49:27.961Z",
+            "xau": "2024-09-15T01:49:27.961Z",
+            "xdr": "2024-09-15T01:49:27.961Z",
+            "xlm": "2024-09-15T01:49:27.961Z",
+            "xrp": "2024-09-15T01:49:27.961Z",
+            "yfi": "2024-09-15T01:49:27.961Z",
+            "zar": "2024-09-15T01:49:27.961Z",
+            "bits": "2024-09-15T01:49:27.961Z",
+            "link": "2024-09-15T01:49:27.961Z",
+            "sats": "2024-09-15T01:49:27.961Z"
+        },
+        "atl": {
+            "aed": 0.00102,
+            "ars": 0.295879,
+            "aud": 0.00044251,
+            "bch": 8.42577e-07,
+            "bdt": 0.03375989,
+            "bhd": 0.00010467,
+            "bmd": 0.00027772,
+            "bnb": 4.81849e-07,
+            "brl": 0.00162631,
+            "btc": 3.601e-09,
+            "cad": 0.0004009,
+            "chf": 0.00024385,
+            "clp": 0.261786,
+            "cny": 0.0020164,
+            "czk": 0.00641121,
+            "dkk": 0.00190953,
+            "dot": 5.573e-05,
+            "eos": 0.00043741,
+            "eth": 1.39802e-07,
+            "eur": 0.00025601,
+            "gbp": 0.00021554,
+            "gel": 0.00077068,
+            "hkd": 0.00215731,
+            "huf": 0.102426,
+            "idr": 4.54,
+            "ils": 0.00101115,
+            "inr": 0.02425953,
+            "jpy": 0.04072063,
+            "krw": 0.404877,
+            "kwd": 8.555e-05,
+            "lkr": 0.082086,
+            "ltc": 2.64e-06,
+            "mmk": 0.58266,
+            "mxn": 0.00565623,
+            "myr": 0.00122989,
+            "ngn": 0.423664,
+            "nok": 0.00299064,
+            "nzd": 0.00048792,
+            "php": 0.01598148,
+            "pkr": 0.081465,
+            "pln": 0.00107568,
+            "rub": 0.02433388,
+            "sar": 0.00104183,
+            "sek": 0.00280974,
+            "sgd": 0.00037004,
+            "thb": 0.0094092,
+            "try": 0.01015769,
+            "twd": 0.00913878,
+            "uah": 0.01148074,
+            "usd": 0.00027772,
+            "vef": 2.781e-05,
+            "vnd": 7.09,
+            "xag": 8.69e-06,
+            "xau": 9.6183e-08,
+            "xdr": 0.00020876,
+            "xlm": 0.00106691,
+            "xrp": 0.00012605,
+            "yfi": 4.445e-08,
+            "zar": 0.0050933,
+            "bits": 0.00360062,
+            "link": 1.881e-05,
+            "sats": 0.360062
+        },
+        "atl_change_percentage": {
+            "aed": 17.21977,
+            "ars": 16.87095,
+            "aud": 17.26706,
+            "bch": 19.14569,
+            "bdt": 16.86797,
+            "bhd": 16.53134,
+            "bmd": 17.21115,
+            "bnb": 8.71414,
+            "brl": 14.78723,
+            "btc": 7.20518,
+            "cad": 17.11493,
+            "chf": 18.00451,
+            "clp": 15.46729,
+            "cny": 17.02954,
+            "czk": 17.3958,
+            "dkk": 17.58808,
+            "dot": 31.25673,
+            "eos": 32.76291,
+            "eth": 15.42021,
+            "eur": 16.92583,
+            "gbp": 16.9014,
+            "gel": 17.21115,
+            "hkd": 17.31919,
+            "huf": 16.17382,
+            "idr": 18.6089,
+            "ils": 18.8963,
+            "inr": 15.38957,
+            "jpy": 19.37028,
+            "krw": 17.8485,
+            "kwd": 16.54947,
+            "lkr": 17.23436,
+            "ltc": 33.81808,
+            "mmk": 17.21115,
+            "mxn": 16.47821,
+            "myr": 17.06558,
+            "ngn": 17.27022,
+            "nok": 15.06528,
+            "nzd": 16.43304,
+            "php": 16.75287,
+            "pkr": 11.68937,
+            "pln": 17.37218,
+            "rub": 12.37029,
+            "sar": 17.20694,
+            "sek": 17.44616,
+            "sgd": 17.29912,
+            "thb": 16.64194,
+            "try": 21.1045,
+            "twd": 17.50929,
+            "uah": 17.47269,
+            "usd": 17.21115,
+            "vef": 17.21115,
+            "vnd": 17.57153,
+            "xag": 13.39157,
+            "xau": 11.95521,
+            "xdr": 16.94872,
+            "xlm": 9.84263,
+            "xrp": 8.09006,
+            "yfi": 40.70411,
+            "zar": 16.52673,
+            "bits": 7.20518,
+            "link": 20.72915,
+            "sats": 7.20518
+        },
+        "atl_date": {
+            "aed": "2025-03-11T00:56:52.341Z",
+            "ars": "2025-03-11T00:56:52.341Z",
+            "aud": "2025-03-11T00:56:52.341Z",
+            "bch": "2025-03-07T03:28:03.778Z",
+            "bdt": "2025-03-11T00:56:52.341Z",
+            "bhd": "2025-03-11T00:56:52.341Z",
+            "bmd": "2025-03-11T00:56:52.341Z",
+            "bnb": "2025-03-18T09:45:31.516Z",
+            "brl": "2025-03-11T00:56:52.341Z",
+            "btc": "2025-03-11T00:56:52.341Z",
+            "cad": "2025-03-11T00:56:52.341Z",
+            "chf": "2025-03-11T00:56:52.341Z",
+            "clp": "2025-03-11T00:56:52.341Z",
+            "cny": "2025-03-11T00:56:52.341Z",
+            "czk": "2025-03-11T00:56:52.341Z",
+            "dkk": "2025-03-11T00:56:52.341Z",
+            "dot": "2024-12-04T14:02:19.979Z",
+            "eos": "2024-12-04T06:17:43.820Z",
+            "eth": "2025-02-25T04:50:46.113Z",
+            "eur": "2025-03-11T00:56:52.341Z",
+            "gbp": "2025-03-11T00:56:52.341Z",
+            "gel": "2025-03-11T00:56:52.341Z",
+            "hkd": "2025-03-11T00:56:52.341Z",
+            "huf": "2025-03-11T00:56:52.341Z",
+            "idr": "2025-03-11T00:56:52.341Z",
+            "ils": "2025-03-11T00:56:52.341Z",
+            "inr": "2025-03-11T00:56:52.341Z",
+            "jpy": "2025-03-11T00:56:52.341Z",
+            "krw": "2025-03-11T00:56:52.341Z",
+            "kwd": "2025-03-11T00:56:52.341Z",
+            "lkr": "2025-03-11T00:56:52.341Z",
+            "ltc": "2025-02-28T04:18:41.911Z",
+            "mmk": "2025-03-11T00:56:52.341Z",
+            "mxn": "2025-03-11T00:56:52.341Z",
+            "myr": "2025-03-11T00:56:52.341Z",
+            "ngn": "2025-03-11T00:56:52.341Z",
+            "nok": "2025-03-11T00:56:52.341Z",
+            "nzd": "2025-03-11T00:56:52.341Z",
+            "php": "2025-03-11T00:56:52.341Z",
+            "pkr": "2025-03-11T00:56:52.341Z",
+            "pln": "2025-03-11T00:56:52.341Z",
+            "rub": "2025-03-11T00:56:52.341Z",
+            "sar": "2025-03-11T00:56:52.341Z",
+            "sek": "2025-03-11T00:56:52.341Z",
+            "sgd": "2025-03-11T00:56:52.341Z",
+            "thb": "2025-03-11T00:56:52.341Z",
+            "try": "2025-03-11T00:56:52.341Z",
+            "twd": "2025-03-11T00:56:52.341Z",
+            "uah": "2025-03-11T00:56:52.341Z",
+            "usd": "2025-03-11T00:56:52.341Z",
+            "vef": "2025-03-11T00:56:52.341Z",
+            "vnd": "2025-03-11T00:56:52.341Z",
+            "xag": "2025-03-11T00:56:52.341Z",
+            "xau": "2025-03-11T00:56:52.341Z",
+            "xdr": "2025-03-11T00:56:52.341Z",
+            "xlm": "2025-03-13T14:23:03.391Z",
+            "xrp": "2025-03-19T13:49:09.061Z",
+            "yfi": "2024-12-07T16:41:34.489Z",
+            "zar": "2025-03-11T00:56:52.341Z",
+            "bits": "2025-03-11T00:56:52.341Z",
+            "link": "2024-12-16T15:48:57.471Z",
+            "sats": "2025-03-11T00:56:52.341Z"
+        },
+        "market_cap": {
+            "aed": 56253,
+            "ars": 16269101,
+            "aud": 24414,
+            "bch": 47.231435,
+            "bdt": 1856264,
+            "bhd": 5738.86,
+            "bmd": 15315.16,
+            "bnb": 24.645619,
+            "brl": 87829,
+            "btc": 0.18160834,
+            "cad": 22090,
+            "chf": 13538.12,
+            "clp": 14221588,
+            "cny": 111023,
+            "czk": 354108,
+            "dkk": 105641,
+            "dot": 3441,
+            "eos": 27322,
+            "eth": 7.591661,
+            "eur": 14083.56,
+            "gbp": 11854.76,
+            "gel": 42500,
+            "hkd": 119076,
+            "huf": 5598361,
+            "idr": 253098264,
+            "ils": 56562,
+            "inr": 1317019,
+            "jpy": 2286935,
+            "krw": 22448649,
+            "kwd": 4691.2,
+            "lkr": 4527600,
+            "ltc": 165.974,
+            "mmk": 32131197,
+            "mxn": 309967,
+            "myr": 67739,
+            "ngn": 23375043,
+            "nok": 161902,
+            "nzd": 26728,
+            "php": 877865,
+            "pkr": 4280803,
+            "pln": 59401,
+            "rub": 1286489,
+            "sar": 57451,
+            "sek": 155256,
+            "sgd": 20421,
+            "thb": 516358,
+            "try": 578760,
+            "twd": 505247,
+            "uah": 634527,
+            "usd": 15315.16,
+            "vef": 1533.51,
+            "vnd": 392144079,
+            "xag": 463.63,
+            "xau": 5.07,
+            "xdr": 11486.18,
+            "xlm": 55137,
+            "xrp": 6410,
+            "yfi": 2.942552,
+            "zar": 279234,
+            "bits": 181608,
+            "link": 1069,
+            "sats": 18160834
+        },
+        "market_cap_rank": 8289,
+        "fully_diluted_valuation": {
+            "aed": 56253,
+            "ars": 16269101,
+            "aud": 24414,
+            "bch": 47.231435,
+            "bdt": 1856264,
+            "bhd": 5738.86,
+            "bmd": 15315.16,
+            "bnb": 24.645619,
+            "brl": 87829,
+            "btc": 0.18160834,
+            "cad": 22090,
+            "chf": 13538.12,
+            "clp": 14221588,
+            "cny": 111023,
+            "czk": 354108,
+            "dkk": 105641,
+            "dot": 3441,
+            "eos": 27322,
+            "eth": 7.591661,
+            "eur": 14083.56,
+            "gbp": 11854.76,
+            "gel": 42500,
+            "hkd": 119076,
+            "huf": 5598361,
+            "idr": 253098264,
+            "ils": 56562,
+            "inr": 1317019,
+            "jpy": 2286935,
+            "krw": 22448649,
+            "kwd": 4691.2,
+            "lkr": 4527600,
+            "ltc": 165.974,
+            "mmk": 32131197,
+            "mxn": 309967,
+            "myr": 67739,
+            "ngn": 23375043,
+            "nok": 161902,
+            "nzd": 26728,
+            "php": 877865,
+            "pkr": 4280803,
+            "pln": 59401,
+            "rub": 1286489,
+            "sar": 57451,
+            "sek": 155256,
+            "sgd": 20421,
+            "thb": 516358,
+            "try": 578760,
+            "twd": 505247,
+            "uah": 634527,
+            "usd": 15315.16,
+            "vef": 1533.51,
+            "vnd": 392144079,
+            "xag": 463.63,
+            "xau": 5.07,
+            "xdr": 11486.18,
+            "xlm": 55137,
+            "xrp": 6410,
+            "yfi": 2.942552,
+            "zar": 279234,
+            "bits": 181608,
+            "link": 1069,
+            "sats": 18160834
+        },
+        "market_cap_fdv_ratio": 1.0,
+        "total_volume": {
+            "aed": 601.02,
+            "ars": 173825,
+            "aud": 260.85,
+            "bch": 0.50477652,
+            "bdt": 19832.96,
+            "bhd": 61.32,
+            "bmd": 163.63,
+            "bnb": 0.26335245,
+            "brl": 938.4,
+            "btc": 0.00194031,
+            "cad": 236.02,
+            "chf": 144.65,
+            "clp": 151948,
+            "cny": 1186.21,
+            "czk": 3783.41,
+            "dkk": 1128.7,
+            "dot": 36.743626,
+            "eos": 291.711,
+            "eth": 0.08114179,
+            "eur": 150.47,
+            "gbp": 126.66,
+            "gel": 454.08,
+            "hkd": 1272.25,
+            "huf": 59815,
+            "idr": 2704189,
+            "ils": 604.33,
+            "inr": 14071.48,
+            "jpy": 24434,
+            "krw": 239849,
+            "kwd": 50.12,
+            "lkr": 48374,
+            "ltc": 1.774601,
+            "mmk": 343301,
+            "mxn": 3311.79,
+            "myr": 723.75,
+            "ngn": 249747,
+            "nok": 1729.81,
+            "nzd": 285.57,
+            "php": 9379.41,
+            "pkr": 45738,
+            "pln": 634.66,
+            "rub": 13745.29,
+            "sar": 613.82,
+            "sek": 1658.8,
+            "sgd": 218.19,
+            "thb": 5516.94,
+            "try": 6183.67,
+            "twd": 5398.23,
+            "uah": 6779.5,
+            "usd": 163.63,
+            "vef": 16.38,
+            "vnd": 4189802,
+            "xag": 4.95,
+            "xau": 0.05413,
+            "xdr": 122.72,
+            "xlm": 589.076,
+            "xrp": 68.477,
+            "yfi": 0.03143736,
+            "zar": 2983.43,
+            "bits": 1940.31,
+            "link": 11.414729,
+            "sats": 194031
+        },
+        "high_24h": {
+            "aed": 0.00119564,
+            "ars": 0.345796,
+            "aud": 0.00051892,
+            "bch": 1.0e-06,
+            "bdt": 0.0394545,
+            "bhd": 0.00012198,
+            "bmd": 0.00032552,
+            "bnb": 5.23838e-07,
+            "brl": 0.00186679,
+            "btc": 3.86e-09,
+            "cad": 0.00046951,
+            "chf": 0.00028775,
+            "clp": 0.302277,
+            "cny": 0.00235978,
+            "czk": 0.00752649,
+            "dkk": 0.00224538,
+            "dot": 7.315e-05,
+            "eos": 0.00059084,
+            "eth": 1.61359e-07,
+            "eur": 0.00029934,
+            "gbp": 0.00025197,
+            "gel": 0.00090332,
+            "hkd": 0.00253094,
+            "huf": 0.118992,
+            "idr": 5.38,
+            "ils": 0.00120222,
+            "inr": 0.02799297,
+            "jpy": 0.04860833,
+            "krw": 0.477141,
+            "kwd": 9.971e-05,
+            "lkr": 0.096233,
+            "ltc": 3.53e-06,
+            "mmk": 0.682942,
+            "mxn": 0.00658827,
+            "myr": 0.00143978,
+            "ngn": 0.496832,
+            "nok": 0.00344119,
+            "nzd": 0.0005681,
+            "php": 0.01865883,
+            "pkr": 0.090988,
+            "pln": 0.00126255,
+            "rub": 0.02734405,
+            "sar": 0.0012211,
+            "sek": 0.00329993,
+            "sgd": 0.00043405,
+            "thb": 0.01097508,
+            "try": 0.01230142,
+            "twd": 0.01073892,
+            "uah": 0.01348674,
+            "usd": 0.00032552,
+            "vef": 3.259e-05,
+            "vnd": 8.33,
+            "xag": 9.85e-06,
+            "xau": 1.07682e-07,
+            "xdr": 0.00024414,
+            "xlm": 0.00117192,
+            "xrp": 0.00013625,
+            "yfi": 6.2543e-08,
+            "zar": 0.00593506,
+            "bits": 0.00386005,
+            "link": 2.271e-05,
+            "sats": 0.386005
+        },
+        "low_24h": {
+            "aed": 0.00114961,
+            "ars": 0.333721,
+            "aud": 0.00049897,
+            "bch": 9.70248e-07,
+            "bdt": 0.03793724,
+            "bhd": 0.00011798,
+            "bmd": 0.000313,
+            "bnb": 4.99609e-07,
+            "brl": 0.00179501,
+            "btc": 3.732e-09,
+            "cad": 0.00045146,
+            "chf": 0.00027668,
+            "clp": 0.290735,
+            "cny": 0.00226903,
+            "czk": 0.00723705,
+            "dkk": 0.00215903,
+            "dot": 7.018e-05,
+            "eos": 0.00056904,
+            "eth": 1.58007e-07,
+            "eur": 0.00028783,
+            "gbp": 0.00024228,
+            "gel": 0.00086858,
+            "hkd": 0.00243361,
+            "huf": 0.11501,
+            "idr": 5.17,
+            "ils": 0.00116346,
+            "inr": 0.02691648,
+            "jpy": 0.04673905,
+            "krw": 0.458793,
+            "kwd": 9.642e-05,
+            "lkr": 0.092532,
+            "ltc": 3.42e-06,
+            "mmk": 0.656679,
+            "mxn": 0.00633492,
+            "myr": 0.00138441,
+            "ngn": 0.477726,
+            "nok": 0.00330886,
+            "nzd": 0.00054625,
+            "php": 0.01794129,
+            "pkr": 0.087489,
+            "pln": 0.001214,
+            "rub": 0.02629251,
+            "sar": 0.00117414,
+            "sek": 0.00317302,
+            "sgd": 0.00041736,
+            "thb": 0.01055302,
+            "try": 0.01182836,
+            "twd": 0.01032595,
+            "uah": 0.01296809,
+            "usd": 0.000313,
+            "vef": 3.134e-05,
+            "vnd": 8.01,
+            "xag": 9.48e-06,
+            "xau": 1.03541e-07,
+            "xdr": 0.00023475,
+            "xlm": 0.00113982,
+            "xrp": 0.00013215,
+            "yfi": 6.0328e-08,
+            "zar": 0.00570682,
+            "bits": 0.00373179,
+            "link": 2.194e-05,
+            "sats": 0.373179
+        },
+        "price_change_24h": 4.68e-06,
+        "price_change_percentage_24h": 1.45796,
+        "price_change_percentage_7d": -0.96469,
+        "price_change_percentage_14d": -4.50217,
+        "price_change_percentage_30d": -29.36526,
+        "price_change_percentage_60d": -58.21999,
+        "price_change_percentage_200d": -99.52436,
+        "price_change_percentage_1y": 0.0,
+        "market_cap_change_24h": 308.25,
+        "market_cap_change_percentage_24h": 2.05406,
+        "price_change_24h_in_currency": {
+            "aed": 1.723e-05,
+            "ars": 0.00371666,
+            "aud": 7.46e-06,
+            "bch": 1.4e-08,
+            "bdt": 0.00056701,
+            "bhd": 1.05e-06,
+            "bmd": 4.68e-06,
+            "bnb": 1.2707e-08,
+            "brl": 2.689e-05,
+            "btc": 4.8561e-11,
+            "cad": 6.75e-06,
+            "chf": 4.14e-06,
+            "clp": 0.00425927,
+            "cny": 3.391e-05,
+            "czk": 0.00010816,
+            "dkk": 3.227e-05,
+            "dot": 1.3e-06,
+            "eos": -3.932988833442e-06,
+            "eth": 5.16463e-10,
+            "eur": 4.3e-06,
+            "gbp": 3.62e-06,
+            "gel": 1.298e-05,
+            "hkd": 3.637e-05,
+            "huf": 0.00110164,
+            "idr": 0.07731,
+            "ils": 9.61e-06,
+            "inr": 0.00040197,
+            "jpy": 0.00069856,
+            "krw": 0.00749252,
+            "kwd": 8.76892e-07,
+            "lkr": 0.00138298,
+            "ltc": 1.8551e-08,
+            "mmk": 0.00981467,
+            "mxn": 9.468e-05,
+            "myr": 2.069e-05,
+            "ngn": 0.00714005,
+            "nok": 4.945e-05,
+            "nzd": 8.16e-06,
+            "php": 0.00026815,
+            "pkr": 0.0013076,
+            "pln": 1.814e-05,
+            "rub": 0.00039297,
+            "sar": 1.755e-05,
+            "sek": 4.742e-05,
+            "sgd": 6.24e-06,
+            "thb": 0.00015772,
+            "try": 0.00017679,
+            "twd": 0.00015433,
+            "uah": 0.00019382,
+            "usd": 4.68e-06,
+            "vef": 4.68419e-07,
+            "vnd": 0.127794,
+            "xag": 1.4162e-07,
+            "xau": 1.548e-09,
+            "xdr": 3.51e-06,
+            "xlm": 1.322e-05,
+            "xrp": 2.12e-06,
+            "yfi": 3.76497e-10,
+            "zar": 8.529e-05,
+            "bits": 4.856e-05,
+            "link": 2.99055e-07,
+            "sats": 0.00485607
+        },
+        "price_change_percentage_1h_in_currency": {
+            "aed": 1.10249,
+            "ars": 1.10249,
+            "aud": 1.10249,
+            "bch": 0.69077,
+            "bdt": 1.10249,
+            "bhd": 1.10249,
+            "bmd": 1.10249,
+            "bnb": 1.28121,
+            "brl": 1.10249,
+            "btc": 1.09614,
+            "cad": 1.10249,
+            "chf": 1.10249,
+            "clp": 1.10249,
+            "cny": 1.10249,
+            "czk": 1.10249,
+            "dkk": 1.10249,
+            "dot": 0.54214,
+            "eos": 0.08085,
+            "eth": 0.87019,
+            "eur": 1.10249,
+            "gbp": 1.10249,
+            "gel": 1.10249,
+            "hkd": 1.10249,
+            "huf": 1.10249,
+            "idr": 1.10249,
+            "ils": 1.10249,
+            "inr": 1.10249,
+            "jpy": 1.10249,
+            "krw": 1.10249,
+            "kwd": 1.10249,
+            "lkr": 1.10249,
+            "ltc": 0.78423,
+            "mmk": 1.10249,
+            "mxn": 1.10249,
+            "myr": 1.10249,
+            "ngn": 1.10249,
+            "nok": 1.10249,
+            "nzd": 1.10249,
+            "php": 1.10249,
+            "pkr": 1.10249,
+            "pln": 1.10249,
+            "rub": 1.10249,
+            "sar": 1.10249,
+            "sek": 1.10249,
+            "sgd": 1.10249,
+            "thb": 1.10249,
+            "try": 1.10249,
+            "twd": 1.10249,
+            "uah": 1.10249,
+            "usd": 1.10249,
+            "vef": 1.10249,
+            "vnd": 1.10249,
+            "xag": 1.10249,
+            "xau": 1.10249,
+            "xdr": 1.10249,
+            "xlm": 1.53612,
+            "xrp": 1.45277,
+            "yfi": 0.52838,
+            "zar": 1.10249,
+            "bits": 1.09614,
+            "link": 1.02296,
+            "sats": 1.09614
+        },
+        "price_change_percentage_24h_in_currency": {
+            "aed": 1.4621,
+            "ars": 1.08641,
+            "aud": 1.45796,
+            "bch": 1.41379,
+            "bdt": 1.45796,
+            "bhd": 0.86603,
+            "bmd": 1.45796,
+            "bnb": 2.48553,
+            "brl": 1.46151,
+            "btc": 1.274,
+            "cad": 1.45796,
+            "chf": 1.45796,
+            "clp": 1.42909,
+            "cny": 1.45796,
+            "czk": 1.45796,
+            "dkk": 1.45796,
+            "dot": 1.81214,
+            "eos": -0.67312,
+            "eth": 0.32096,
+            "eur": 1.45796,
+            "gbp": 1.45796,
+            "gel": 1.45796,
+            "hkd": 1.45796,
+            "huf": 0.93439,
+            "idr": 1.45796,
+            "ils": 0.80615,
+            "inr": 1.45677,
+            "jpy": 1.45796,
+            "krw": 1.59522,
+            "kwd": 0.88717,
+            "lkr": 1.45796,
+            "ltc": 0.52823,
+            "mmk": 1.45796,
+            "mxn": 1.45796,
+            "myr": 1.45796,
+            "ngn": 1.45796,
+            "nok": 1.45796,
+            "nzd": 1.45796,
+            "php": 1.45796,
+            "pkr": 1.45796,
+            "pln": 1.45796,
+            "rub": 1.45796,
+            "sar": 1.45796,
+            "sek": 1.45796,
+            "sgd": 1.45796,
+            "thb": 1.45796,
+            "try": 1.45796,
+            "twd": 1.45796,
+            "uah": 1.45796,
+            "usd": 1.45796,
+            "vef": 1.45796,
+            "vnd": 1.55699,
+            "xag": 1.45796,
+            "xau": 1.45796,
+            "xdr": 1.45796,
+            "xlm": 1.14121,
+            "xrp": 1.58346,
+            "yfi": 0.60561,
+            "zar": 1.45796,
+            "bits": 1.274,
+            "link": 1.33445,
+            "sats": 1.274
+        },
+        "price_change_percentage_7d_in_currency": {
+            "aed": -0.9566,
+            "ars": -1.11088,
+            "aud": -0.09634,
+            "bch": 2.03557,
+            "bdt": -0.97559,
+            "bhd": -1.32965,
+            "bmd": -0.96469,
+            "bnb": -3.9977,
+            "brl": -1.15601,
+            "btc": -1.47261,
+            "cad": -0.73069,
+            "chf": -0.82804,
+            "clp": -1.07308,
+            "cny": -0.82035,
+            "czk": -0.43547,
+            "dkk": -0.39575,
+            "dot": -5.00805,
+            "eos": -11.68621,
+            "eth": -6.23067,
+            "eur": -0.58219,
+            "gbp": -0.78447,
+            "gel": -0.91109,
+            "hkd": -0.96469,
+            "huf": -1.0229,
+            "idr": 0.23625,
+            "ils": -0.40374,
+            "inr": -2.04427,
+            "jpy": -0.51168,
+            "krw": 0.03789,
+            "kwd": -1.21045,
+            "lkr": -0.98908,
+            "ltc": -1.87592,
+            "mmk": -0.96469,
+            "mxn": 0.5743,
+            "myr": -1.4881,
+            "ngn": -1.29803,
+            "nok": -2.66086,
+            "nzd": -0.77171,
+            "php": -0.96815,
+            "pkr": -0.94711,
+            "pln": 0.09373,
+            "rub": -2.29569,
+            "sar": -0.97361,
+            "sek": -0.88677,
+            "sgd": -1.26827,
+            "thb": -0.16395,
+            "try": 2.56993,
+            "twd": -0.81737,
+            "uah": -0.85308,
+            "usd": -0.96469,
+            "vef": -0.96469,
+            "vnd": -0.60952,
+            "xag": 1.22848,
+            "xau": -2.15375,
+            "xdr": -0.5551,
+            "xlm": -3.69004,
+            "xrp": -2.63416,
+            "yfi": -3.13972,
+            "zar": -0.78577,
+            "bits": -1.47261,
+            "link": -3.41752,
+            "sats": -1.47261
+        },
+        "price_change_percentage_14d_in_currency": {
+            "aed": -4.49437,
+            "ars": -4.73653,
+            "aud": -4.08352,
+            "bch": 11.25841,
+            "bdt": -4.84765,
+            "bhd": -5.07191,
+            "bmd": -4.50217,
+            "bnb": -10.17223,
+            "brl": -5.37339,
+            "btc": -2.86124,
+            "cad": -4.16997,
+            "chf": -4.16359,
+            "clp": -4.40881,
+            "cny": -4.30416,
+            "czk": -4.08443,
+            "dkk": -4.31629,
+            "dot": -8.18719,
+            "eos": -9.89323,
+            "eth": 3.1044,
+            "eur": -4.87539,
+            "gbp": -4.61677,
+            "gel": -4.50217,
+            "hkd": -4.44933,
+            "huf": -4.92893,
+            "idr": -3.17778,
+            "ils": -2.66206,
+            "inr": -5.76754,
+            "jpy": -3.67653,
+            "krw": -3.29716,
+            "kwd": -5.05021,
+            "lkr": -4.55933,
+            "ltc": 4.60898,
+            "mmk": -4.50217,
+            "mxn": -4.63396,
+            "myr": -4.31829,
+            "ngn": -3.76628,
+            "nok": -7.03961,
+            "nzd": -4.8605,
+            "php": -4.3102,
+            "pkr": -4.78208,
+            "pln": -3.78338,
+            "rub": -9.91763,
+            "sar": -4.51342,
+            "sek": -4.01944,
+            "sgd": -4.32278,
+            "thb": -4.61243,
+            "try": -0.8576,
+            "twd": -4.07182,
+            "uah": -4.1207,
+            "usd": -4.50217,
+            "vef": -4.50217,
+            "vnd": -4.12786,
+            "xag": -5.89383,
+            "xau": -8.03295,
+            "xdr": -4.86218,
+            "xlm": -4.29111,
+            "xrp": -7.45434,
+            "yfi": -3.10221,
+            "zar": -4.60111,
+            "bits": -2.86124,
+            "link": 0.22694,
+            "sats": -2.86124
+        },
+        "price_change_percentage_30d_in_currency": {
+            "aed": -29.3643,
+            "ars": -29.1333,
+            "aud": -28.10399,
+            "bch": -27.83549,
+            "bdt": -29.52013,
+            "bhd": -29.76599,
+            "bmd": -29.36526,
+            "bnb": -25.04588,
+            "brl": -29.15402,
+            "btc": -17.61818,
+            "cad": -28.23532,
+            "chf": -30.55035,
+            "clp": -30.42871,
+            "cny": -29.44361,
+            "czk": -31.78823,
+            "dkk": -31.61522,
+            "dot": -19.01605,
+            "eos": -17.6545,
+            "eth": -2.59322,
+            "eur": -32.00404,
+            "gbp": -30.86356,
+            "gel": -30.12072,
+            "hkd": -29.31162,
+            "huf": -33.15662,
+            "idr": -28.5236,
+            "ils": -26.82459,
+            "inr": -29.94844,
+            "jpy": -29.91439,
+            "krw": -27.80087,
+            "kwd": -29.89646,
+            "lkr": -29.12492,
+            "ltc": 3.03196,
+            "mmk": -29.36526,
+            "mxn": -29.73894,
+            "myr": -29.29333,
+            "ngn": -28.37895,
+            "nok": -32.81496,
+            "nzd": -29.0495,
+            "php": -30.08913,
+            "pkr": -29.06623,
+            "pln": -31.23126,
+            "rub": -32.24068,
+            "sar": -29.34894,
+            "sek": -32.79101,
+            "sgd": -29.57731,
+            "thb": -29.16258,
+            "try": -26.68754,
+            "twd": -28.87912,
+            "uah": -29.40086,
+            "usd": -29.36526,
+            "vef": -29.36526,
+            "vnd": -29.14397,
+            "xag": -29.58774,
+            "xau": -31.5704,
+            "xdr": -30.56293,
+            "xlm": -13.19867,
+            "xrp": -21.14194,
+            "yfi": -17.73592,
+            "zar": -29.85732,
+            "bits": -17.61818,
+            "link": -8.98403,
+            "sats": -17.61818
+        },
+        "price_change_percentage_60d_in_currency": {
+            "aed": -58.21965,
+            "ars": -57.58159,
+            "aud": -58.15894,
+            "bch": -42.73731,
+            "bdt": -58.18239,
+            "bhd": -58.46638,
+            "bmd": -58.21999,
+            "bnb": -53.04042,
+            "brl": -60.4052,
+            "btc": -48.00106,
+            "cad": -57.94592,
+            "chf": -59.17294,
+            "clp": -61.34936,
+            "cny": -58.65289,
+            "czk": -59.87154,
+            "dkk": -59.67998,
+            "dot": -38.25353,
+            "eos": -38.28337,
+            "eth": -31.67396,
+            "eur": -59.89077,
+            "gbp": -60.02874,
+            "gel": -59.17622,
+            "hkd": -58.28839,
+            "huf": -61.33753,
+            "idr": -57.41167,
+            "ils": -56.47489,
+            "inr": -58.38727,
+            "jpy": -59.92585,
+            "krw": -57.24548,
+            "kwd": -58.47216,
+            "lkr": -58.24442,
+            "ltc": -47.13194,
+            "mmk": -58.21999,
+            "mxn": -58.90056,
+            "myr": -58.34712,
+            "ngn": -58.87001,
+            "nok": -60.80628,
+            "nzd": -58.5991,
+            "php": -58.98333,
+            "pkr": -57.88712,
+            "pln": -60.17085,
+            "rub": -64.34379,
+            "sar": -58.22313,
+            "sek": -61.42526,
+            "sgd": -58.81533,
+            "thb": -58.34248,
+            "try": -55.71189,
+            "twd": -57.8881,
+            "uah": -58.92106,
+            "usd": -58.21999,
+            "vef": -58.21999,
+            "vnd": -57.54062,
+            "xag": -60.87714,
+            "xau": -61.86937,
+            "xdr": -59.33134,
+            "xlm": -34.91245,
+            "xrp": -44.61775,
+            "yfi": -37.31723,
+            "zar": -58.779,
+            "bits": -48.00106,
+            "link": -24.86648,
+            "sats": -48.00106
+        },
+        "price_change_percentage_200d_in_currency": {
+            "aed": -99.52435,
+            "ars": -99.47009,
+            "aud": -99.49112,
+            "bch": -99.5425,
+            "bdt": -99.51705,
+            "bhd": -99.52708,
+            "bmd": -99.52436,
+            "bnb": -99.61535,
+            "brl": -99.51714,
+            "btc": -99.68111,
+            "cad": -99.49397,
+            "chf": -99.50499,
+            "clp": -99.52299,
+            "cny": -99.51552,
+            "czk": -99.5154,
+            "dkk": -99.51398,
+            "dot": -99.56832,
+            "eos": -99.61413,
+            "eth": -99.4355,
+            "eur": -99.51658,
+            "gbp": -99.5172,
+            "gel": -99.50933,
+            "hkd": -99.52576,
+            "huf": -99.51151,
+            "idr": -99.49279,
+            "ils": -99.52731,
+            "inr": -99.51319,
+            "jpy": -99.51013,
+            "krw": -99.48,
+            "kwd": -99.52324,
+            "lkr": -99.5293,
+            "ltc": -99.66063,
+            "mmk": -99.52436,
+            "mxn": -99.51479,
+            "myr": -99.51671,
+            "ngn": -99.54317,
+            "nok": -99.52996,
+            "nzd": -99.48656,
+            "php": -99.51788,
+            "pkr": -99.52246,
+            "pln": -99.5239,
+            "rub": -99.55029,
+            "sar": -99.52461,
+            "sek": -99.53266,
+            "sgd": -99.51462,
+            "thb": -99.53137,
+            "try": -99.472,
+            "twd": -99.51235,
+            "uah": -99.52283,
+            "usd": -99.52436,
+            "vef": -99.52436,
+            "vnd": -99.51011,
+            "xag": -99.59685,
+            "xau": -99.60918,
+            "xdr": -99.51908,
+            "xlm": -99.84597,
+            "xrp": -99.89008,
+            "yfi": -99.55493,
+            "zar": -99.51575,
+            "bits": -99.68111,
+            "link": -99.66135,
+            "sats": -99.68111
+        },
+        "price_change_percentage_1y_in_currency": {},
+        "market_cap_change_24h_in_currency": {
+            "aed": 1134.45,
+            "ars": 321562,
+            "aud": 491.9,
+            "bch": 0.96730534,
+            "bdt": 33096,
+            "bhd": 82.51,
+            "bmd": 308.25,
+            "bnb": 0.89135557,
+            "brl": 1767.75,
+            "btc": 0.00356088,
+            "cad": 444.6,
+            "chf": 272.48,
+            "clp": 282274,
+            "cny": 2234.58,
+            "czk": 7127.18,
+            "dkk": 2126.25,
+            "dot": 92.12,
+            "eos": 486.793,
+            "eth": 0.06484349,
+            "eur": 286.21,
+            "gbp": 238.6,
+            "gel": 855.39,
+            "hkd": 2393.96,
+            "huf": 84224,
+            "idr": 5094146,
+            "ils": 780.07,
+            "inr": 26572,
+            "jpy": 46029,
+            "krw": 450336,
+            "kwd": 67.12,
+            "lkr": 80723,
+            "ltc": 1.891771,
+            "mmk": 646709,
+            "mxn": 6238.74,
+            "myr": 1363.39,
+            "ngn": 114340,
+            "nok": 3258.62,
+            "nzd": 533.38,
+            "php": 17668.91,
+            "pkr": 75118,
+            "pln": 1197.17,
+            "rub": 25893,
+            "sar": 1156.63,
+            "sek": 3124.85,
+            "sgd": 412.52,
+            "thb": 10392.82,
+            "try": 9022.54,
+            "twd": 10169.18,
+            "uah": 11313.07,
+            "usd": 308.25,
+            "vef": 30.87,
+            "vnd": 8267439,
+            "xag": 9.33,
+            "xau": 0.101969,
+            "xdr": 260.43,
+            "xlm": 1076,
+            "xrp": 175.275,
+            "yfi": 0.03523909,
+            "zar": 5620.18,
+            "bits": 3560.88,
+            "link": 11.272348,
+            "sats": 356088
+        },
+        "market_cap_change_percentage_24h_in_currency": {
+            "aed": 2.05822,
+            "ars": 2.01638,
+            "aud": 2.05623,
+            "bch": 2.09083,
+            "bdt": 1.8153,
+            "bhd": 1.45866,
+            "bmd": 2.05406,
+            "bnb": 3.7524,
+            "brl": 2.05406,
+            "btc": 1.99996,
+            "cad": 2.05406,
+            "chf": 2.05406,
+            "clp": 2.02502,
+            "cny": 2.05406,
+            "czk": 2.05406,
+            "dkk": 2.05406,
+            "dot": 2.75046,
+            "eos": 1.81404,
+            "eth": 0.8615,
+            "eur": 2.07437,
+            "gbp": 2.05406,
+            "gel": 2.05406,
+            "hkd": 2.05169,
+            "huf": 1.52742,
+            "idr": 2.05406,
+            "ils": 1.39842,
+            "inr": 2.0591,
+            "jpy": 2.05406,
+            "krw": 2.04714,
+            "kwd": 1.4516,
+            "lkr": 1.81528,
+            "ltc": 1.15294,
+            "mmk": 2.05406,
+            "mxn": 2.05406,
+            "myr": 2.05406,
+            "ngn": 0.49156,
+            "nok": 2.05406,
+            "nzd": 2.03622,
+            "php": 2.05406,
+            "pkr": 1.7861,
+            "pln": 2.05687,
+            "rub": 2.05406,
+            "sar": 2.05463,
+            "sek": 2.05406,
+            "sgd": 2.06171,
+            "thb": 2.05406,
+            "try": 1.58363,
+            "twd": 2.05406,
+            "uah": 1.81528,
+            "usd": 2.05406,
+            "vef": 2.05406,
+            "vnd": 2.15367,
+            "xag": 2.05406,
+            "xau": 2.05406,
+            "xdr": 2.31996,
+            "xlm": 1.99055,
+            "xrp": 2.81109,
+            "yfi": 1.21208,
+            "zar": 2.05406,
+            "bits": 1.99996,
+            "link": 1.06607,
+            "sats": 1.99996
+        },
+        "total_supply": 47048208.115025,
+        "max_supply": 47051124.0,
+        "max_supply_infinite": false,
+        "circulating_supply": 47048208.115025,
+        "last_updated": "2025-03-23T10:28:08.231Z"
+    },
+    "community_data": {
+        "facebook_likes": null,
+        "twitter_followers": 18648,
+        "reddit_average_posts_48h": 0.0,
+        "reddit_average_comments_48h": 0.0,
+        "reddit_subscribers": 0,
+        "reddit_accounts_active_48h": 0,
+        "telegram_channel_user_count": 3131
+    },
+    "developer_data": {
+        "forks": 0,
+        "stars": 0,
+        "subscribers": 0,
+        "total_issues": 0,
+        "closed_issues": 0,
+        "pull_requests_merged": 0,
+        "pull_request_contributors": 0,
+        "code_additions_deletions_4_weeks": {
+            "additions": null,
+            "deletions": null
+        },
+        "commit_count_4_weeks": 0,
+        "last_4_weeks_commit_activity_series": []
+    },
+    "status_updates": [],
+    "last_updated": "2025-03-23T10:28:08.231Z",
+    "tickers": [
+        {
+            "base": "4TRUMPJWGUIFJFY6PLPWT6SZ5BZMCUZFQWWEJADR6XP3",
+            "target": "SO11111111111111111111111111111111111111112",
+            "market": {
+                "name": "Raydium",
+                "identifier": "raydium2",
+                "has_trading_incentive": false
+            },
+            "last": 2.457091433e-06,
+            "volume": 503840.090464,
+            "converted_last": {
+                "btc": 3.86e-09,
+                "eth": 1.61426e-07,
+                "usd": 0.00032555
+            },
+            "converted_volume": {
+                "btc": 0.00194031,
+                "eth": 0.08113926,
+                "usd": 163.64
+            },
+            "trust_score": "yellow",
+            "bid_ask_spread_percentage": 0.618893,
+            "timestamp": "2025-03-23T09:49:56+00:00",
+            "last_traded_at": "2025-03-23T09:49:56+00:00",
+            "last_fetch_at": "2025-03-23T10:27:07+00:00",
+            "is_anomaly": false,
+            "is_stale": false,
+            "trade_url": "https://raydium.io/swap/?outputCurrency=4TRUMPJwguiFjfY6PLpwT6SZ5BZmCuzfqWWeJAdR6xP3",
+            "token_info_url": null,
+            "coin_id": "4trump",
+            "target_coin_id": "wrapped-solana"
+        }
+    ]
+}`
+
 const MissingCoinResponse = `{
     "error": "coin not found"
 }`
+
+const MockPartialAssets = `[
+    {
+        "id": "ethereum",
+        "chain_identifier": 1,
+        "name": "Ethereum",
+        "shortname": "Ethereum",
+        "native_coin_id": "ethereum",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/279/thumb/ethereum.png?1706606803",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/279/small/ethereum.png?1706606803",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/279/large/ethereum.png?1706606803"
+        }
+    },
+    {
+        "id": "arbitrum-nova",
+        "chain_identifier": 42170,
+        "name": "Arbitrum Nova",
+        "shortname": "",
+        "native_coin_id": "ethereum",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/93/thumb/AN_logomark.png?1706606703",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/93/small/AN_logomark.png?1706606703",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/93/large/AN_logomark.png?1706606703"
+        }
+    },
+    {
+        "id": "factom",
+        "chain_identifier": null,
+        "name": "Factom",
+        "shortname": "",
+        "native_coin_id": "factom",
+        "image": {
+            "thumb": null,
+            "small": null,
+            "large": null
+        }
+    },
+    {
+        "id": "monad",
+        "chain_identifier": null,
+        "name": "Monad",
+        "shortname": "",
+        "native_coin_id": "monad",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/22182/thumb/monad.png?1729046263",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/22182/small/monad.png?1729046263",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/22182/large/monad.png?1729046263"
+        }
+    },
+    {
+        "id": "kusama",
+        "chain_identifier": null,
+        "name": "Kusama",
+        "shortname": "",
+        "native_coin_id": "kusama",
+        "image": {
+            "thumb": null,
+            "small": null,
+            "large": null
+        }
+    },
+    {
+        "id": "zano",
+        "chain_identifier": null,
+        "name": "Zano",
+        "shortname": "",
+        "native_coin_id": "zano",
+        "image": {
+            "thumb": null,
+            "small": null,
+            "large": null
+        }
+    },
+    {
+        "id": "picasso",
+        "chain_identifier": null,
+        "name": "Picasso",
+        "shortname": "",
+        "native_coin_id": "picasso",
+        "image": {
+            "thumb": null,
+            "small": null,
+            "large": null
+        }
+    },
+    {
+        "id": "findora",
+        "chain_identifier": null,
+        "name": "Findora",
+        "shortname": "",
+        "native_coin_id": "findora",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/91/thumb/findora.jpeg?1706606402",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/91/small/findora.jpeg?1706606402",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/91/large/findora.jpeg?1706606402"
+        }
+    },
+    {
+        "id": "bitkub-chain",
+        "chain_identifier": 96,
+        "name": "Bitkub Chain",
+        "shortname": "",
+        "native_coin_id": "bitkub-coin",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/109/thumb/bitkub.jpeg?1706606416",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/109/small/bitkub.jpeg?1706606416",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/109/large/bitkub.jpeg?1706606416"
+        }
+    },
+    {
+        "id": "onus",
+        "chain_identifier": null,
+        "name": "ONUS",
+        "shortname": "",
+        "native_coin_id": "onus",
+        "image": {
+            "thumb": "https://coin-images.coingecko.com/asset_platforms/images/115/thumb/onus.jpeg?1706606579",
+            "small": "https://coin-images.coingecko.com/asset_platforms/images/115/small/onus.jpeg?1706606579",
+            "large": "https://coin-images.coingecko.com/asset_platforms/images/115/large/onus.jpeg?1706606579"
+        }
+    }
+]`
+
+func getMockData(filepath string) string {
+	jsonFile, _ := os.Open(filepath)
+	byteValue, _ := io.ReadAll(jsonFile)
+	return string(byteValue)
+}

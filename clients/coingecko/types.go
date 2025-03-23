@@ -2,10 +2,24 @@ package coingecko
 
 import (
 	"time"
-
-	"github.com/elliotchance/pie/v2"
 )
 
+type Assets []Asset
+
+type Asset struct {
+	Id              string `json:"id"`
+	ChainIdentifier *int   `json:"chain_identifier"`
+	Name            string `json:"name"`
+	Shortname       string `json:"shortname"`
+	NativeCoinId    string `json:"native_coin_id"`
+	Image           Image  `json:"image"`
+}
+
+type Image struct {
+	Thumb *string `json:"thumb"`
+	Small *string `json:"small"`
+	Large *string `json:"large"`
+}
 type Coins []Coin
 
 type Platforms map[string]string
@@ -170,67 +184,3 @@ type FullCoin struct {
 type Price map[string]float64
 
 type ContractPrice map[string]Price
-
-type Chain struct {
-	name         string
-	id           int
-	longname     string
-	shortname    string
-	nativeCoinId string
-}
-
-var SUPPORTED_CHAIN = []Chain{
-	{
-		name:         "base",
-		id:           8453,
-		longname:     "Base",
-		shortname:    "base",
-		nativeCoinId: "ethereum",
-	},
-	{
-		name:         "binance-smart-chain",
-		id:           56,
-		longname:     "BNB Smart Chain",
-		shortname:    "bsc",
-		nativeCoinId: "binancecoin",
-	},
-	{
-		name:         "ethereum",
-		id:           1,
-		longname:     "Ethereum",
-		shortname:    "ethereum",
-		nativeCoinId: "ethereum",
-	},
-	{
-		name:         "polygon-pos",
-		id:           137,
-		longname:     "Polygon POS",
-		shortname:    "polygon",
-		nativeCoinId: "matic-network",
-	},
-	{
-		name:         "optimistic-ethereum",
-		id:           10,
-		longname:     "Optimism",
-		shortname:    "optimism",
-		nativeCoinId: "ethereum",
-	},
-	{
-		name:         "avalanche",
-		id:           43114,
-		longname:     "Avalanche",
-		shortname:    "avalanche",
-		nativeCoinId: "avalanche-2",
-	},
-}
-
-func getChain(chainName string) *Chain {
-	founds := pie.Filter(SUPPORTED_CHAIN, func(chain Chain) bool {
-		return chain.shortname == chainName
-	})
-	if len(founds) > 0 {
-		chain := pie.First(founds)
-		return &chain
-	}
-	return nil
-}

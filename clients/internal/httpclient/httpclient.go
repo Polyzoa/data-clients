@@ -54,18 +54,29 @@ func (m MockHttpClient) Do(_ *http.Request) (*http.Response, error) {
 	return response, nil
 }
 
+type Callable interface {
+	Calls() int32
+}
+
 type MockRetryableHttpClient struct {
 	Responses   []string
 	StatusCodes []int
 	counter     *atomic.Int32
+	calls       *atomic.Int32
+}
+
+func (m MockRetryableHttpClient) Calls() int32 {
+	return m.calls.Load()
 }
 
 func NewMockRetryableHttpClient(responses []string, statusCodes []int) MockRetryableHttpClient {
 	var counter atomic.Int32
+	var calls atomic.Int32
 	return MockRetryableHttpClient{
 		Responses:   responses,
 		StatusCodes: statusCodes,
 		counter:     &counter,
+		calls:       &calls,
 	}
 }
 
@@ -82,5 +93,6 @@ func (m MockRetryableHttpClient) Do(_ *retryablehttp.Request) (*http.Response, e
 		Body:       body,
 	}
 	m.counter.Add(1)
+	m.calls.Add(1)
 	return response, nil
 }

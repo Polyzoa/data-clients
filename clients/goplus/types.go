@@ -19,8 +19,8 @@ type SecurityInfo struct {
 	CannotBuy                  int      `json:"cannot_buy,string"`
 	CannotSellAll              int      `json:"cannot_sell_all,string"`
 	CreatorAddress             string   `json:"creator_address"`
-	CreatorBalance             string   `json:"creator_balance"`
-	CreatorPercent             string   `json:"creator_percent"`
+	CreatorBalance             float64  `json:"creator_balance,string"`
+	CreatorPercent             float64  `json:"creator_percent,string"`
 	Dex                        []Dex    `json:"dex"`
 	ExternalCall               string   `json:"external_call"`
 	HiddenOwner                int      `json:"hidden_owner,string"`
@@ -37,7 +37,7 @@ type SecurityInfo struct {
 	IsWhitelisted              int      `json:"is_whitelisted,string"`
 	LpHolderCount              int32    `json:"lp_holder_count,string,omitempty"`
 	LpHolders                  []Holder `json:"lp_holders"`
-	LpTotalSupply              string   `json:"lp_total_supply"`
+	LpTotalSupply              float64  `json:"lp_total_supply,string"`
 	OwnerAddress               string   `json:"owner_address"`
 	OwnerBalance               float64  `json:"owner_balance,string"`
 	OwnerChangeBalance         int      `json:"owner_change_balance,string"`
@@ -138,6 +138,9 @@ type SolanaSecurityInfo struct {
 	NonTransferable int     `json:"non_transferable,string"`
 	TotalSupply     float64 `json:"total_supply,string"`
 	TransferFee     struct {
+		CurrentFeeRate float64 `json:"current_fee_rate,string"`
+		FeeRate        float64 `json:"fee_rate,string"`
+		MaximumFee     float64 `json:"maximum_fee,string"`
 	} `json:"transfer_fee"`
 	TransferFeeUpgradable struct {
 		Authority []interface{} `json:"authority"`
