@@ -3,25 +3,25 @@ package dexscreener
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"strings"
 
 	"github.com/Polyzoa/data-clients/clients/errors"
 	"github.com/Polyzoa/data-clients/clients/internal/httpclient"
 	"github.com/elliotchance/pie/v2"
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 type Client struct {
-	client httpclient.HttpClient
+	client httpclient.RetryableHttpClient
 }
 
-func NewClient(client httpclient.HttpClient) *Client {
+func NewClient(client httpclient.RetryableHttpClient) *Client {
 	return &Client{client: client}
 }
 
 func (c Client) GetPairs(addresses []string) (Pairs, error) {
 	baseUrl := fmt.Sprintf("https://api.dexscreener.com/latest/dex/tokens/%v", strings.Join(addresses, ","))
-	req, err := http.NewRequest("GET", baseUrl, nil)
+	req, err := retryablehttp.NewRequest("GET", baseUrl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c Client) GetPairs(addresses []string) (Pairs, error) {
 
 func (c Client) GetLatestTokens(networks ...string) (Profiles, error) {
 	baseUrl := "https://api.dexscreener.com/token-profiles/latest/v1"
-	req, err := http.NewRequest("GET", baseUrl, nil)
+	req, err := retryablehttp.NewRequest("GET", baseUrl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (c Client) GetLatestTokens(networks ...string) (Profiles, error) {
 
 func (c Client) GetLatestBoostedTokens(networks ...string) (Profiles, error) {
 	baseUrl := "https://api.dexscreener.com/token-boosts/latest/v1"
-	req, err := http.NewRequest("GET", baseUrl, nil)
+	req, err := retryablehttp.NewRequest("GET", baseUrl, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (c Client) GetLatestBoostedTokens(networks ...string) (Profiles, error) {
 }
 func (c Client) GetTopBoostedTokens(networks ...string) (Profiles, error) {
 	baseUrl := "https://api.dexscreener.com/token-boosts/top/v1"
-	req, err := http.NewRequest("GET", baseUrl, nil)
+	req, err := retryablehttp.NewRequest("GET", baseUrl, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -88,7 +88,7 @@ func (m MockRetryableHttpClient) Do(_ *retryablehttp.Request) (*http.Response, e
 		body = io.NopCloser(strings.NewReader(m.Responses[counter]))
 	}
 	response := &http.Response{
-		Status:     fmt.Sprintf("Status %v", status),
+		Status:     http.StatusText(status),
 		StatusCode: status,
 		Body:       body,
 	}
