@@ -1735,3 +1735,181 @@ const PairsData = `[
             "pairCreatedAt": 1683951225000
         }
     ]`
+
+const ProfilesDataResponse = `[
+    {
+        "url": "https://dexscreener.com/solana/85nxszbtowhteaecpgwbtpzb5grfgfzjqvtdkvawpump",
+        "chainId": "solana",
+        "tokenAddress": "85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump?timestamp=1743235500000",
+        "description": "there is no bull market without an inu",
+        "links": [
+            {
+                "label": "Website",
+                "url": "https://pump.fun/coin/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump"
+            },
+            {
+                "type": "twitter",
+                "url": "https://x.com/search?q=%24bull&src=typed_query"
+            }
+        ]
+    },
+    {
+        "url": "https://dexscreener.com/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36",
+        "chainId": "base",
+        "tokenAddress": "0x9Daa31b4cFa3aB4B5797005d92275f3803EcAF36",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36?timestamp=1743235500000",
+        "description": "My Life As Grok",
+        "links": [
+            {
+                "type": "telegram",
+                "url": "https://t.me/MyLifeAsGrok"
+            }
+        ]
+    },
+    {
+        "url": "https://dexscreener.com/base/0x8907c2bc161198c4b130096514721fbd8820ce77",
+        "chainId": "base",
+        "tokenAddress": "0x8907c2Bc161198c4B130096514721FBD8820Ce77",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/base/0x8907c2bc161198c4b130096514721fbd8820ce77.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/base/0x8907c2bc161198c4b130096514721fbd8820ce77/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/base/0x8907c2bc161198c4b130096514721fbd8820ce77?timestamp=1743235500000",
+        "description": "The NFT collection for every color on the internet.",
+        "links": [
+            {
+                "label": "Website",
+                "url": "https://basecolors.online"
+            },
+            {
+                "type": "telegram",
+                "url": "https://t.me/Bcolors_Base"
+            }
+        ]
+    }
+]`
+const ProfilesDataResponseBase = `[
+    {
+        "url": "https://dexscreener.com/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36",
+        "chainId": "base",
+        "tokenAddress": "0x9Daa31b4cFa3aB4B5797005d92275f3803EcAF36",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/base/0x9daa31b4cfa3ab4b5797005d92275f3803ecaf36?timestamp=1743235500000",
+        "description": "My Life As Grok",
+        "links": [
+            {
+                "type": "telegram",
+                "url": "https://t.me/MyLifeAsGrok"
+            }
+        ]
+    },
+    {
+        "url": "https://dexscreener.com/base/0x8907c2bc161198c4b130096514721fbd8820ce77",
+        "chainId": "base",
+        "tokenAddress": "0x8907c2Bc161198c4B130096514721FBD8820Ce77",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/base/0x8907c2bc161198c4b130096514721fbd8820ce77.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/base/0x8907c2bc161198c4b130096514721fbd8820ce77/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/base/0x8907c2bc161198c4b130096514721fbd8820ce77?timestamp=1743235500000",
+        "description": "The NFT collection for every color on the internet.",
+        "links": [
+            {
+                "label": "Website",
+                "url": "https://basecolors.online"
+            },
+            {
+                "type": "telegram",
+                "url": "https://t.me/Bcolors_Base"
+            }
+        ]
+    }
+]`
+const ProfilesDataResponseSolana = `[
+    {
+        "url": "https://dexscreener.com/solana/85nxszbtowhteaecpgwbtpzb5grfgfzjqvtdkvawpump",
+        "chainId": "solana",
+        "tokenAddress": "85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump?timestamp=1743235500000",
+        "description": "there is no bull market without an inu",
+        "links": [
+            {
+                "label": "Website",
+                "url": "https://pump.fun/coin/85nxsZbTowHTeAEcPGWBTpzb5grFgFzJQvtdkvAWpump"
+            },
+            {
+                "type": "twitter",
+                "url": "https://x.com/search?q=%24bull&src=typed_query"
+            }
+        ]
+    }
+]`
+
+const ProfilesDataBoostedResponse = `[
+    {
+        "url": "https://dexscreener.com/solana/7ncsxqbws1zd4wy4ggfypx64o9qe6mcadnju6tms68ec",
+        "chainId": "solana",
+        "tokenAddress": "7ncsxqbWs1zD4wy4GGfYpx64o9qe6MCADNju6Tms68eC",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/7ncsxqbWs1zD4wy4GGfYpx64o9qe6MCADNju6Tms68eC?timestamp=1743237300000",
+        "totalAmount": 10,
+        "amount": 10
+    },
+    {
+        "url": "https://dexscreener.com/solana/5ugkfvz8iczfri2ckbpvihdzxe786yg3d5cnky3axmnq",
+        "chainId": "solana",
+        "tokenAddress": "5uGKfvZ8iCZfRi2CkBPViHdZxE786yg3d5cnkY3axMNQ",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/5uGKfvZ8iCZfRi2CkBPViHdZxE786yg3d5cnkY3axMNQ?timestamp=1743237300000",
+        "totalAmount": 10,
+        "amount": 10
+    },
+    {
+        "url": "https://dexscreener.com/solana/bg6vwes7krfnpxhbwba95zu7grnaob8jsss7r181pump",
+        "chainId": "solana",
+        "tokenAddress": "BG6VWes7KRFNPXHbWbA95ZU7grnaob8JSsS7r181pump",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/solana/BG6VWes7KRFNPXHbWbA95ZU7grnaob8JSsS7r181pump.png?claimId=BInzzhaGFI7iBhQv",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/solana/BG6VWes7KRFNPXHbWbA95ZU7grnaob8JSsS7r181pump/header.png?claimId=BInzzhaGFI7iBhQv",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/BG6VWes7KRFNPXHbWbA95ZU7grnaob8JSsS7r181pump?timestamp=1743237300000",
+        "description": "The Origins: A Real Meme, A Real Movement\nDog Wif Pants is not just another internet joke turned token. It is based on a real meme from China, birthed in 2016, that has captivated online communities for years, and now, it has found its way into the crypto world as the first-ever “wif coin” on Solana.",
+        "links": [
+            {
+                "label": "Website",
+                "url": "https://www.reddit.com/r/comedyheaven/comments/bkw4y0/dog_wif_pants/?share_id=S0aArfCrIzN3yVyo5zifm&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1"
+            },
+            {
+                "type": "twitter",
+                "url": "https://x.com/Dogwifpants_OG"
+            },
+            {
+                "type": "telegram",
+                "url": "https://t.me/dogwifpantssol"
+            }
+        ],
+        "totalAmount": 10,
+        "amount": 10
+    },
+    {
+        "url": "https://dexscreener.com/solana/hwzmjudrvpmwume1hrh4zwrlfuzbfyat6b7rfsnapump",
+        "chainId": "solana",
+        "tokenAddress": "HwZmJuDrvpMwUme1HRh4zwrLfUZBFyAT6B7RfsNapump",
+        "icon": "https://dd.dexscreener.com/ds-data/tokens/solana/HwZmJuDrvpMwUme1HRh4zwrLfUZBFyAT6B7RfsNapump.png",
+        "header": "https://dd.dexscreener.com/ds-data/tokens/solana/HwZmJuDrvpMwUme1HRh4zwrLfUZBFyAT6B7RfsNapump/header.png",
+        "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/HwZmJuDrvpMwUme1HRh4zwrLfUZBFyAT6B7RfsNapump?timestamp=1743237300000",
+        "description": "Hear me out. We're living in a South Park episode.",
+        "links": [
+            {
+                "type": "twitter",
+                "url": "https://x.com/i/communities/1905437930421977374"
+            },
+            {
+                "type": "telegram",
+                "url": "https://t.me/southpark_sol"
+            }
+        ],
+        "totalAmount": 20,
+        "amount": 10
+    }
+]`

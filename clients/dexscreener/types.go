@@ -63,3 +63,22 @@ type Liquidity struct {
 	Base  float64 `json:"base"`
 	Quote float64 `json:"quote"`
 }
+
+type Profiles []Profile
+
+type Profile struct {
+	Url          string  `json:"url"`
+	ChainId      string  `json:"chainId"`
+	TokenAddress string  `json:"tokenAddress"`
+	Amount       float64 `json:"amount,omitempty"`
+	TotalAmount  float64 `json:"totalAmount,omitempty"`
+	Icon         string  `json:"icon"`
+	Header       string  `json:"header,omitempty"`
+	OpenGraph    string  `json:"openGraph"`
+	Description  string  `json:"description"`
+	Links        []struct {
+		Label string `json:"label,omitempty"`
+		Url   string `json:"url"`
+		Type  string `json:"type,omitempty"`
+	} `json:"links"`
+}

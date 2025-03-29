@@ -46,7 +46,7 @@ func NewMockHttpClient(responses []string, statusCodes []int) MockHttpClient {
 func (m MockHttpClient) Do(_ *http.Request) (*http.Response, error) {
 	counter := m.counter.Load()
 	response := &http.Response{
-		Status:     fmt.Sprintf("Status %v", m.StatusCodes[counter]),
+		Status:     fmt.Sprintf(http.StatusText(m.StatusCodes[counter])),
 		StatusCode: m.StatusCodes[counter],
 		Body:       io.NopCloser(strings.NewReader(m.Responses[counter])),
 	}
